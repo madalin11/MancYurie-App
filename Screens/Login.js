@@ -14,6 +14,7 @@ const Login = ({navigation}) => {
 
                 behavior={Platform.OS==='ios' ? 'padding':'height'}
             >
+            <View style={{height: 100}}/>
             <View>
                 <Image style={{ width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
             </View>
