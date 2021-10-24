@@ -4,57 +4,58 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 
 
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setpassword] = useState('')
     return (
-        <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView
                 style={styles.container}
 
-                behavior={Platform.OS==='ios' ? 'padding':'height'}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={60}
             >
-            <View style={{height: 100}}/>
-            <View>
-                <Image style={{ width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
-            </View>
-            <View style={styles.inputContainer}>
+                <View style={{ height: 200 }} />
+                <View>
+                    <Image style={{ alignSelf:'center', width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
+                </View>
+                <View style={styles.inputContainer}>
 
-                <TextInput
-                    placeholder="Email"
-                    type="email"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={styles.input}
-                />
-                <TextInput
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={text => setpassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                />
+                    <TextInput
+                        placeholder="Email"
+                        type="email"
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={text => setpassword(text)}
+                        style={styles.input}
+                        secureTextEntry
+                    />
 
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={() => { }}
-                    style={styles.button}
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        onPress={() => navigation.replace("Home screen")}
+                        style={styles.button}
 
-                >
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Home screen")}
-                    style={[styles.button, styles.buttonOutline]}
+                    >
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Register screen")}
+                        style={[styles.button, styles.buttonOutline]}
 
-                >
-                    <Text styles={styles.buttonOutlineText}>Register</Text>
-                </TouchableOpacity>
-                <View style={{height:200}}/>
-            </View>
+                    >
+                        <Text styles={styles.buttonOutlineText}>Register</Text>
+                    </TouchableOpacity>
+                    <View style={{ height: 100 }} />
+                </View>
 
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback >
     )
 }
@@ -62,11 +63,13 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        flex:1,
+        justifyContent:'center',
         alignItems: 'center',
+        //alignContent:'center',
         backgroundColor: '#ADD8E6',
         
+
     },
     inputContainer: {
         width: '80%',
