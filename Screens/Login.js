@@ -51,7 +51,7 @@ const Login = ({navigation}) => {
                 >
                     <Text styles={styles.buttonOutlineText}>Register</Text>
                 </TouchableOpacity>
-                <View style={{height:100}}/>
+                <View style={{height:200}}/>
             </View>
 
         </KeyboardAvoidingView>
