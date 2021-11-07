@@ -1,12 +1,44 @@
 import { NavigationContainer } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, TouchableWithoutFeedback, Keyboard, Image, Platform } from 'react-native'
 
+import {auth} from '../firebase'
 
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
-    const [password, setpassword] = useState('')
+    const [password, setPassword] = useState('')
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("Home screen")
+            }
+        })
+
+        return unsubscribe
+    }, [])
+
+    const handleSignUp = () => {
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Registered with:', user.email);
+            })
+            .catch(error => alert(error.message))
+    }
+
+    const handleLogin = () => {
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Logged in with:', user.email);
+            })
+            .catch(error => alert(error.message))
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView
@@ -17,7 +49,7 @@ const Login = ({ navigation }) => {
             >
                 <View style={{ height: 200 }} />
                 <View>
-                    <Image style={{ alignSelf:'center', width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
+                    <Image style={{ alignSelf: 'center', width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
                 </View>
                 <View style={styles.inputContainer}>
 
@@ -31,7 +63,7 @@ const Login = ({ navigation }) => {
                     <TextInput
                         placeholder="Password"
                         value={password}
-                        onChangeText={text => setpassword(text)}
+                        onChangeText={text => setPassword(text)}
                         style={styles.input}
                         secureTextEntry
                     />
@@ -39,14 +71,14 @@ const Login = ({ navigation }) => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
-                        onPress={() => navigation.replace("Home screen")}
+                        onPress={handleLogin}
                         style={styles.button}
 
                     >
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("Register screen")}
+                        onPress={()=>navigation.navigate("Register screen")}
                         style={[styles.button, styles.buttonOutline]}
 
                     >
@@ -63,12 +95,12 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
-        justifyContent:'center',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         //alignContent:'center',
         backgroundColor: '#ADD8E6',
-        
+
 
     },
     inputContainer: {
@@ -116,3 +148,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 })
+
