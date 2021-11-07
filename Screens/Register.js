@@ -1,37 +1,68 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
+import { auth } from '../firebase'
+
+import { updateProfile } from "firebase/auth"
 
 const Register = ({ navigation }) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("Home screen")
+            }
+        })
+
+        return unsubscribe
+    }, [])
+    const handleSignUp = () => {
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((authUser) => {
+                const user = auth.currentUser;
+                user.updateProfile({
+                    displayName: firstName
+                })
+
+                console.log('Registered with1:', authUser.user.displayName);
+            })
+            .catch(error => alert(error.message))
+    }
+
     return (
         <View>
             <View style={styles.inputContainer}>
 
                 <TextInput
                     placeholder="Firs Name"
-                //value={}
-                //onChangeText={}
-                style={styles.input}
+                    value={firstName}
+                    onChangeText={text => setFirstName(text)}
+                    style={styles.input}
                 />
                 <TextInput
                     placeholder="Last Name"
-                //value={}
-                //onChangeText={}
-                style={styles.input}
+                    //value={}
+                    //onChangeText={}
+                    style={styles.input}
                 // secureTextEntry
                 />
                 <TextInput
                     placeholder="Email"
                     type="email"
-                //value={}
-                //onChangeText={}
-                style={styles.input}
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={styles.input}
+
                 />
                 <TextInput
-                    placeholder="Phone Number"
-                //value={}
-                //onChangeText={}
-                style={styles.input}
-                // secureTextEntry
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                    style={styles.input}
+                    secureTextEntry
                 />
                 <TextInput
                     placeholder="Password"
@@ -46,19 +77,20 @@ const Register = ({ navigation }) => {
                     //onChangeText={}
                     style={styles.input}
                     secureTextEntry
+                    onSubmitEditing={handleSignUp}
                 />
 
             </View>
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.replace("Home screen")}
+                    onPress={handleSignUp}
                 >
                     <Text>
                         Register
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => navigation.replace("Login screen")}
+                    raised onPress={() => navigation.replace("Login screen")}
                 >
                     <Text>
                         Back
