@@ -3,19 +3,27 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, TouchableWithoutFe
 import { auth } from '../firebase'
 
 
-import { getAuth, updateProfile } from "firebase/auth"
-
 const Register = ({ navigation }) => {
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repetePassword, setRepetePassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [phoneNuber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [photoUrl, setPhotoUrl] = useState('');
 
     function checkTextInput() {
         //Check for the Name TextInput
         if (!firstName.trim()) {
+            alert('Please Enter First Name');
+            return;
+        }
+        if (!phoneNumber.trim()) {
+            alert('Please Enter First Name');
+            return;
+        }
+        if (!lastName.trim()) {
             alert('Please Enter First Name');
             return;
         }
@@ -49,7 +57,8 @@ const Register = ({ navigation }) => {
                     auth1.updateProfile({
 
                         displayName: "Jane Q. User",
-                        photoURL: "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
+                        photoURL:photoUrl || "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
+            
                     }).then(function () {
                         // Profile updated successfully!
 
@@ -97,7 +106,7 @@ const Register = ({ navigation }) => {
 
                 <TextInput
                     placeholder="Phone number"
-                    value={phoneNuber}
+                    value={phoneNumber}
                     onChangeText={text => setPhoneNumber(text)}
                     style={styles.input}
                     keyboardType="numeric"
