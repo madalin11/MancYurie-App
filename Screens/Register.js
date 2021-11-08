@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import { auth } from '../firebase'
 
-import { updateProfile } from "firebase/auth"
+
+import { getAuth, updateProfile } from "firebase/auth"
 
 const Register = ({ navigation }) => {
     const [email, setEmail] = useState('')
@@ -22,12 +23,19 @@ const Register = ({ navigation }) => {
         auth
             .createUserWithEmailAndPassword(email, password)
             .then((authUser) => {
-                const user = auth.currentUser;
-                user.updateProfile({
-                    displayName: firstName
-                })
+                const auth1 = authUser.user;
+                console.log(auth1.displayName)
+                // Updates the user attributes:
+                auth1.updateProfile({
+                    displayName: "Jane Q. User",
+                    photoURL: "https://example.com/jane-q-user/profile.jpg"
+                }).then(function () {
+                    // Profile updated successfully!
+                    console.log(auth1.displayName)
 
-                console.log('Registered with1:', authUser.user.displayName);
+                }, function (error) {
+                    // An error happened.
+                });
             })
             .catch(error => alert(error.message))
     }
