@@ -4,7 +4,7 @@ import { auth } from '../firebase'
 
 
 const Register = ({ navigation }) => {
-    
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repetePassword, setRepetePassword] = useState('');
@@ -20,11 +20,11 @@ const Register = ({ navigation }) => {
             return;
         }
         if (!phoneNumber.trim()) {
-            alert('Please Enter First Name');
+            alert('Please Enter Phone Number');
             return;
         }
         if (!lastName.trim()) {
-            alert('Please Enter First Name');
+            alert('Please Enter Last Name');
             return;
         }
         if(repetePassword.trim()!==password.trim()){
@@ -110,6 +110,14 @@ const Register = ({ navigation }) => {
                     onChangeText={text => setPhoneNumber(text)}
                     style={styles.input}
                     keyboardType="numeric"
+
+                />
+                <TextInput
+                    placeholder="Photo URL (optional)"
+                    value={photoUrl}
+                    onChangeText={text => setPhotoUrl(text)}
+                    style={styles.input}
+                    
 
                 />
                 <TextInput
