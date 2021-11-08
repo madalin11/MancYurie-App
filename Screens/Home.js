@@ -1,34 +1,49 @@
 import React from 'react'
+import { getAuth } from "firebase/auth"
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { auth } from '../firebase';
 
 const Tab = createBottomTabNavigator();
 
+
+
+
 const Home = ({ navigation }) => {
+    const handleSignOut = () => {
+        auth
+            .signOut()
+            .then(() => {
+                navigation.replace("Login screen")
+            })
+            .catch(error => alert(error.message))
+    }
+    
     return (
-        
+
         <View style={styles.button}>
             <TouchableOpacity
-                onPress={() => navigation.replace("Login screen")}
+                onPress={handleSignOut}
                 style={styles.container}
 
             >
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 45 }}>Sign out</Text>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={()=>navigation.navigate("Chat screen")}>
+                onPress={() => navigation.navigate("Chat screen")}>
                 <Text>
                     Add friend
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity  style={styles.map}
-            onPress={()=>navigation.navigate("Map screen")}>
+            <TouchableOpacity style={styles.map}
+                onPress={() => navigation.navigate("Map screen")}>
                 <Text>
                     Check this map
                 </Text>
             </TouchableOpacity>
+            
         </View>
     )
 }
@@ -52,5 +67,5 @@ const styles = StyleSheet.create({
 
         alignItems: 'center'
     }
-    
+
 })
