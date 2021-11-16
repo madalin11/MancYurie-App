@@ -5,6 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { auth } from '../firebase';
+import { updateProfile } from "firebase/auth";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +21,22 @@ const Home = ({ navigation }) => {
             })
             .catch(error => alert(error.message))
     }
-    
+    const updateUSER = () => {
+
+        const auth1 = auth.currentUser;
+        console.log(auth1.displayName)
+        // Updates the user attributes:
+        auth1.updateProfile({
+            displayName: "Jane Q. User"
+            //photoURL: "https://example.com/jane-q-user/profile.jpg"
+        }).then(()=>{
+            // Profile updated successfully!
+            console.log(auth1.uid)
+           
+        })
+        .catch (error => alert(error.message));
+
+    }
     return (
 
         <View style={styles.button}>
@@ -38,12 +54,12 @@ const Home = ({ navigation }) => {
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.map}
-                onPress={() => navigation.navigate("Map screen")}>
+                onPress={updateUSER}>
                 <Text>
                     Check this map
                 </Text>
             </TouchableOpacity>
-            
+
         </View>
     )
 }
