@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { updateProfile } from "firebase/auth";
-
+import ChatListItem from '../components/ChatListItem'
 const Tab = createBottomTabNavigator();
 
 
@@ -48,11 +48,12 @@ const Home = ({ navigation }) => {
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 45 }}>Sign out</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => navigation.navigate("Chat screen")}>
+                onPress={() => navigation.navigate("Chat room")}>
                 <Text>
                     Add friend
                 </Text>
             </TouchableOpacity>
+            <ChatListItem/>
             <TouchableOpacity style={styles.map}
                 onPress={updateUSER}>
                 <Text>
