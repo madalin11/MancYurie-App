@@ -10,9 +10,9 @@ const ChatRoom = () => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.container}
-                keyboardVerticalOffset={90}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : undefined}
             >
                 <>
                     <ScrollView>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         padding: 15,
-        
+
 
     },
     textInput: {
