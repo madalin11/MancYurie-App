@@ -8,6 +8,7 @@ import Home from './Home';
 import Conversations from './Conversations';
 import UserProfile from './UserProfile';
 import StackScreens from './StackScreens';
+import AddFriend from './AddFriend';
 
 const Tab = createBottomTabNavigator();
 const TabStack = () => {
@@ -15,7 +16,7 @@ const TabStack = () => {
         <Tab.Navigator  screenOptions={{headerShown:false}}>
             <Tab.Screen options={{}} name="Home screen" component={Home} />
             <Tab.Screen options={{}} name="Conversations" component={Conversations} />
-            <Tab.Screen options={{}} name="Chat screen" component={AddChat} />
+            <Tab.Screen options={{}} name="Add Friend" component={AddFriend} />
             <Tab.Screen options={{}} name="Map screen" component={Map} />
             <Tab.Screen options={{}} name="Profile screen" component={StackScreens} />
         </Tab.Navigator>

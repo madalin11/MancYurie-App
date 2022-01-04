@@ -19,10 +19,11 @@ const ChatRoom = () => {
 
                     </ScrollView>
                     <View style={styles.footer}>
-                        <TextInput
+                        <TextInput style={{color:"red"}}
                             value={input}
                             onChangeText={(text) => setInput(text)}
                             placeholder="Message"
+                            placeholderTextColor="#707070"
                             style={styles.textInput}
                         />
                         <TouchableOpacity onPress={sendMessage} >
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         padding: 15,
+        
 
 
     },
@@ -55,11 +57,9 @@ const styles = StyleSheet.create({
         height: 40,
         flex: 1,
         marginRight: 15,
-
-        borderColor: "#202020",
-        borderWidth: 10,
+        paddingLeft:15,
         backgroundColor: "#202020",
-        color: "gray",
+        color: "white",
         borderRadius: 30,
     }
 })

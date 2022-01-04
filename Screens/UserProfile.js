@@ -18,7 +18,7 @@ const UserProfile = ({ navigation }) => {
     }
     
     return (
-        <View>
+        <View style={styles.button}>
             <TouchableOpacity onPress={handleSignOut}>
                 <Text>
                     Iesi afara
@@ -36,5 +36,12 @@ const UserProfile = ({ navigation }) => {
 export default UserProfile
 
 const styles = StyleSheet.create({
-    
+    button: {
+        width: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffc0c0'
+
+    }
 })
