@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Home screen")
+                navigation.replace("Tab Stack")
             }
         })
 

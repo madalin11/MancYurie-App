@@ -24,6 +24,11 @@ const UserProfile = ({ navigation }) => {
                     Iesi afara
                 </Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate("Update Profile")}>
+                <Text>
+                    Settings
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
