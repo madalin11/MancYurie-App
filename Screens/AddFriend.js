@@ -1,15 +1,15 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Map = () => {
+const AddFriend = () => {
     return (
         <View style={styles.container}>
-            <Text>Map option</Text>
+            <Text>Saluut</Text>
         </View>
     )
 }
 
-export default Map
+export default AddFriend
 
 const styles = StyleSheet.create({
     container: {

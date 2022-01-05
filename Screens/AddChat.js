@@ -20,5 +20,12 @@ const AddChat = ({navigation}) => {
 export default AddChat
 
 const styles = StyleSheet.create({
+    button: {
+        width: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffc0c0'
 
+    }
 })

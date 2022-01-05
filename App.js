@@ -5,11 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-import Home from './Screens/Home';
+
 import Login from './Screens/Login';
 import Register from './Screens/Register';
-import AddChat from './Screens/AddChat';
-import Map from './Screens/Map';
+
+import ChatRoom from './Screens/ChatRoom';
+import TabStack from './Screens/TabStack';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,9 +21,8 @@ export default function App() {
       
         <Stack.Screen options={{ headerShown: false }} name="Login screen" component={Login} />
         <Stack.Screen options={{  }} name="Register screen" component={Register} />
-       <Stack.Screen options={{  }} name="Chat screen" component={AddChat} />
-        <Stack.Screen options={{  }} name="Map screen" component={Map} />
-        <Stack.Screen options={{  }} name="Home screen" component={Home} />
+        <Stack.Screen options={{  }} name="Chat room" component={ChatRoom} />
+        <Stack.Screen options={{ headerShown: false }} name="Tab Stack" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

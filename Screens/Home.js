@@ -1,12 +1,14 @@
 import React from 'react'
 import { getAuth } from "firebase/auth"
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { updateProfile } from "firebase/auth";
-import ChatListItem from '../components/ChatListItem'
+import NotificationListItem from '../components/NotificationListItem';
+import StoryItem from '../components/StoryItem';
+
 const Tab = createBottomTabNavigator();
 
 
@@ -29,39 +31,51 @@ const Home = ({ navigation }) => {
         auth1.updateProfile({
             displayName: "Jane Q. User"
             //photoURL: "https://example.com/jane-q-user/profile.jpg"
-        }).then(()=>{
+        }).then(() => {
             // Profile updated successfully!
             console.log(auth1.uid)
-           
+
         })
-        .catch (error => alert(error.message));
+            .catch(error => alert(error.message));
 
     }
     return (
 
-        <View style={styles.button}>
-            <TouchableOpacity
-                onPress={handleSignOut}
-                style={styles.container}
+        <SafeAreaView style={styles.button}>
+            <Text style={styles.text}>
+                Hello,
+            </Text>
+            <Text style={styles.text1}>
+                Andrei
+            </Text>
+            <Text style={{color:'white',paddingLeft:15,marginTop:15}}>
+                Your Featured Stories
+            </Text>
+            <ScrollView horizontal={true} backgroundColor={"#202020"}  >
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+                <StoryItem />
+            </ScrollView>
 
-            >
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 45 }}>Sign out</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => navigation.navigate("Chat room")}>
-                <Text>
-                    Add friend
-                </Text>
-            </TouchableOpacity>
-            <ChatListItem/>
-            <TouchableOpacity style={styles.map}
-                onPress={updateUSER}>
-                <Text>
-                    Check this map
-                </Text>
-            </TouchableOpacity>
-
-        </View>
+            <ScrollView style={{ marginTop: 10 }}>
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+                <NotificationListItem />
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 export default Home
@@ -70,17 +84,29 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ffc0c0'
+        // alignItems: 'center',
+        backgroundColor: '#202020',
 
+
+    },
+    text: {
+        paddingTop:15,
+        color: '#777777',
+        paddingLeft:15,
+        fontSize: 30
+    },
+    text1: {
+        color: 'white',
+        paddingLeft:15,
+        fontSize: 40
     },
     container: {
         padding: 15,
         backgroundColor: '#202020',
         borderRadius: 10,
-        width: '60%',
-        paddingVertical: 15,
-        marginHorizontal: 10,
+
+        marginTop: 10,
+
 
         alignItems: 'center'
     }
