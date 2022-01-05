@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
             <Text style={styles.text1}>
                 Andrei
             </Text>
-            <Text style={{color:'white',paddingLeft:15,marginTop:15}}>
+            <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
             </Text>
             <ScrollView horizontal={true} backgroundColor={"#202020"}  >
@@ -66,7 +66,10 @@ const Home = ({ navigation }) => {
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
-                <NotificationListItem />
+                <TouchableOpacity onPress={()=>navigation.navigate("Map screen")}>
+                    <NotificationListItem/>
+                </TouchableOpacity>
+
                 <NotificationListItem />
                 <NotificationListItem />
                 <NotificationListItem />
@@ -90,14 +93,14 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        paddingTop:15,
+        paddingTop: 15,
         color: '#777777',
-        paddingLeft:15,
+        paddingLeft: 15,
         fontSize: 30
     },
     text1: {
         color: 'white',
-        paddingLeft:15,
+        paddingLeft: 15,
         fontSize: 40
     },
     container: {
