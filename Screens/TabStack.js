@@ -13,7 +13,7 @@ import AddFriend from './AddFriend';
 const Tab = createBottomTabNavigator();
 const TabStack = () => {
     return (
-        <Tab.Navigator  screenOptions={{headerShown:false}}>
+        <Tab.Navigator  screenOptions={{headerShown:false,tabBarVisibilityAnimationConfig:true,}} >
             <Tab.Screen options={{}} name="Home screen" component={Home} />
             <Tab.Screen options={{}} name="Conversations" component={Conversations} />
             <Tab.Screen options={{}} name="Add Friend" component={AddFriend} />
