@@ -16,7 +16,7 @@ import TabStack from './Screens/TabStack';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer backgroundColor={'red'}>
       <Stack.Navigator>
       
         <Stack.Screen options={{ headerShown: false }} name="Login screen" component={Login} />
