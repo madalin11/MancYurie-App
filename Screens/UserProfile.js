@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, Platfor
 import { auth } from '../firebase'
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient';
 const UserProfile = ({ navigation }) => {
-    
+
     const handleSignOut = () => {
         auth
             .signOut()
@@ -16,15 +17,20 @@ const UserProfile = ({ navigation }) => {
             })
             .catch(error => alert(error.message))
     }
-    
+
     return (
         <View style={styles.button}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
             <TouchableOpacity onPress={handleSignOut}>
                 <Text>
                     Iesi afara
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate("Update Profile")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Update Profile")}>
                 <Text>
                     Settings
                 </Text>
@@ -41,7 +47,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffc0c0'
+        //backgroundColor: '#ffc0c0'
 
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
     }
 })

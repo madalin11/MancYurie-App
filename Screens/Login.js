@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, TouchableWithoutFeedback, Keyboard, Image, Platform } from 'react-native'
-
-import {auth} from '../firebase'
+import { LinearGradient } from 'expo-linear-gradient';
+import { auth } from '../firebase'
 
 
 const Login = ({ navigation }) => {
@@ -44,9 +44,14 @@ const Login = ({ navigation }) => {
             <KeyboardAvoidingView
                 style={styles.container}
 
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={60}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                keyboardVerticalOffset={90}
             >
+                <LinearGradient
+                    // Background Linear Gradient
+                    colors={['#ADD8E6', '#D6F3F2', 'white']}
+                    style={styles.background}
+                />
                 <View style={{ height: 200 }} />
                 <View>
                     <Image style={{ alignSelf: 'center', width: 100, height: 100, marginTop: 50, marginBottom: 100, alignContent: 'center' }} source={require('../Icons/chat.png')} />
@@ -78,7 +83,7 @@ const Login = ({ navigation }) => {
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>navigation.navigate("Register screen")}
+                        onPress={() => navigation.navigate("Register screen")}
                         style={[styles.button, styles.buttonOutline]}
 
                     >
@@ -105,6 +110,13 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '80%',
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
     },
     input: {
         backgroundColor: 'white',

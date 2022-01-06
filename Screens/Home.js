@@ -8,7 +8,7 @@ import { auth } from '../firebase';
 import { updateProfile } from "firebase/auth";
 import NotificationListItem from '../components/NotificationListItem';
 import StoryItem from '../components/StoryItem';
-
+import { LinearGradient } from 'expo-linear-gradient';
 const Tab = createBottomTabNavigator();
 
 
@@ -42,6 +42,11 @@ const Home = ({ navigation }) => {
     return (
 
         <SafeAreaView style={styles.button}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
             <Text style={styles.text}>
                 Hello,
             </Text>
@@ -51,7 +56,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
             </Text>
-            <ScrollView horizontal={true} backgroundColor={"#202020"}  >
+            <ScrollView horizontal={true} backgroundColor={"transparent"}  >
                 <StoryItem />
                 <StoryItem />
                 <StoryItem />
@@ -66,8 +71,8 @@ const Home = ({ navigation }) => {
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={()=>navigation.navigate("Map screen")}>
-                    <NotificationListItem/>
+                <TouchableOpacity onPress={() => navigation.navigate("Map screen")}>
+                    <NotificationListItem />
                 </TouchableOpacity>
 
                 <NotificationListItem />
@@ -102,6 +107,13 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingLeft: 15,
         fontSize: 40
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
     },
     container: {
         padding: 15,

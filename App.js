@@ -18,10 +18,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      
+
         <Stack.Screen options={{ headerShown: false }} name="Login screen" component={Login} />
-        <Stack.Screen options={{  }} name="Register screen" component={Register} />
-        <Stack.Screen options={{  }} name="Chat room" component={ChatRoom} />
+        <Stack.Screen options={{ headerShown: false }} name="Register screen" component={Register} />
+        <Stack.Screen options={{}} name="Chat room" component={ChatRoom} />
         <Stack.Screen options={{ headerShown: false }} name="Tab Stack" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
