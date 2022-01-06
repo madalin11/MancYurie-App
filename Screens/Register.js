@@ -1,7 +1,12 @@
+
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
-import { auth } from '../firebase'
+
+import { disableExpoCliLogging } from 'expo/build/logs/Logs';
+import React, { useState, useEffect } from 'react'
+
+import { auth ,db} from '../firebase'
+
 
 
 const Register = ({ navigation }) => {
@@ -13,7 +18,7 @@ const Register = ({ navigation }) => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [photoUrl, setPhotoUrl] = useState('');
-
+   
     function checkTextInput() {
         //Check for the Name TextInput
         if (!firstName.trim()) {
@@ -35,12 +40,18 @@ const Register = ({ navigation }) => {
 
         return true;
     };
-
+  async function createPeople(temp){
+        await db.collection("peoples").doc(temp).set({
+            coord:"37.78825,-122.4324"
+        }).then(()=>{
+            console.log("merge");
+        }).catch((error)=>alert(error));
+    }
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
 
-                navigation.replace("Home screen")
+                navigation.replace("Tab Stack")
             }
         })
 
@@ -57,14 +68,17 @@ const Register = ({ navigation }) => {
                     const fullName = firstName + " " + lastName;
                     auth1.updateProfile({
 
-                        displayName: "Jane Q. User",
-                        photoURL: photoUrl || "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
+
+                        displayName: fullName,
+                        photoURL:photoUrl || "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
+            
 
                     }).then(function () {
                         // Profile updated successfully!
-
-                        console.log(auth1.displayName)
-
+                        //createPeople();
+                        //temp=auth1.uid;
+                        console.log(auth1.uid)
+                       createPeople(auth1.uid);
                     }, function (error) {
                         // An error happened.
                     });
