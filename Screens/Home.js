@@ -29,7 +29,7 @@ const Home = ({ navigation }) => {
         console.log(auth1.displayName)
         // Updates the user attributes:
         auth1.updateProfile({
-            displayName: "Jane Q. User"
+            displayName: "fgf"
             //photoURL: "https://example.com/jane-q-user/profile.jpg"
         }).then(() => {
             // Profile updated successfully!
@@ -70,13 +70,7 @@ const Home = ({ navigation }) => {
                     <NotificationListItem/>
                 </TouchableOpacity>
 
-                <NotificationListItem />
-                <NotificationListItem />
-                <NotificationListItem />
-                <NotificationListItem />
-                <NotificationListItem />
-                <NotificationListItem />
-                <NotificationListItem />
+                
             </ScrollView>
         </SafeAreaView>
     )
