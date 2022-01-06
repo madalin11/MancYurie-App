@@ -1,7 +1,12 @@
+
+import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
+
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
+
 import { auth ,db} from '../firebase'
+
 
 
 const Register = ({ navigation }) => {
@@ -28,7 +33,7 @@ const Register = ({ navigation }) => {
             alert('Please Enter Last Name');
             return;
         }
-        if(repetePassword.trim()!==password.trim()){
+        if (repetePassword.trim() !== password.trim()) {
             alert('Password does\'t match');
             return;
         }
@@ -63,9 +68,11 @@ const Register = ({ navigation }) => {
                     const fullName = firstName + " " + lastName;
                     auth1.updateProfile({
 
+
                         displayName: fullName,
                         photoURL:photoUrl || "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
             
+
                     }).then(function () {
                         // Profile updated successfully!
                         //createPeople();
@@ -81,89 +88,103 @@ const Register = ({ navigation }) => {
     }
 
     return (
-        <View>
-            <View style={styles.inputContainer}>
+        <KeyboardAvoidingView
+            style={styles.container}
 
-                <TextInput
-                    placeholder="Firs Name"
-                    type="text"
-                    autoCapitalize="words"
-                    value={firstName}
-                    onChangeText={text => setFirstName(text)}
-                    style={styles.input}
-                />
-                <TextInput
-                    placeholder="Last Name"
-                    type="text"
-                    autoCapitalize="words"
-                    value={lastName}
-                    onChangeText={text => setLastName(text)}
-                    style={styles.input}
-                // secureTextEntry
-                />
-                <TextInput
-                    placeholder="Email"
-                    type="email"
-                    autoCapitalize="none"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={styles.input}
-                    keyboardType="email-address"
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={0}
+        >
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
+            <ScrollView>
+                <View style={{ marginTop: 50 }}>
 
-                />
-
-                <TextInput
-                    placeholder="Phone number"
-                    value={phoneNumber}
-                    onChangeText={text => setPhoneNumber(text)}
-                    style={styles.input}
-                    keyboardType="numeric"
-
-                />
-                <TextInput
-                    placeholder="Photo URL (optional)"
-                    value={photoUrl}
-                    onChangeText={text => setPhotoUrl(text)}
-                    style={styles.input}
-                    
-
-                />
-                <TextInput
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                />
-                <TextInput
-                    placeholder="Repete Password"
-                    value={repetePassword}
-                    onChangeText={text=>setRepetePassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                    onSubmitEditing={handleSignUp}
-                />
-
-            </View>
-            <View>
-                <TouchableOpacity
-
-                    onPress={handleSignUp}
-                >
-                    <Text>
+                    <View style={{ marginBottom: 50 }}>
+                        <TouchableOpacity
+                            raised onPress={() => navigation.reset({ index: 0, routes: [{ name: "Login screen" }] })}
+                        >
+                            <Image source={require('../Icons/leftarrow.png')} style={{ marginTop: 20, marginLeft: 10, width: 20, height: 20, marginBottom: 20 }}></Image>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={{ marginBottom: 75, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
                         Register
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    raised onPress={() => navigation.replace("Login screen")}
-                >
-                    <Text>
-                        Back
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <Text></Text>
-        </View>
+                    <TextInput
+                        placeholder="First Name"
+                        type="text"
+                        autoCapitalize="words"
+                        value={firstName}
+                        onChangeText={text => setFirstName(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        placeholder="Last Name"
+                        type="text"
+                        autoCapitalize="words"
+                        value={lastName}
+                        onChangeText={text => setLastName(text)}
+                        style={styles.input}
+                    // secureTextEntry
+                    />
+                    <TextInput
+                        placeholder="Email"
+                        type="email"
+                        autoCapitalize="none"
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        style={styles.input}
+                        keyboardType="email-address"
+
+                    />
+
+                    <TextInput
+                        placeholder="Phone number"
+                        value={phoneNumber}
+                        onChangeText={text => setPhoneNumber(text)}
+                        style={styles.input}
+                        keyboardType="numeric"
+
+                    />
+                    <TextInput
+                        placeholder="Photo URL (optional)"
+                        value={photoUrl}
+                        onChangeText={text => setPhotoUrl(text)}
+                        style={styles.input}
+
+
+                    />
+                    <TextInput
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={text => setPassword(text)}
+                        style={styles.input}
+                        secureTextEntry
+                    />
+                    <TextInput
+                        placeholder="Repete Password"
+                        value={repetePassword}
+                        onChangeText={text => setRepetePassword(text)}
+                        style={styles.input}
+                        secureTextEntry
+                        onSubmitEditing={handleSignUp}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+
+                        onPress={handleSignUp}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonOutlineText}>
+                            Register
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView >
+        </KeyboardAvoidingView>
     )
 }
 
@@ -175,7 +196,57 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 5,
+        marginTop: 7,
+        width: '80%',
+        alignSelf: 'center'
 
-    }
+
+    },
+    container: {
+        flex: 1,
+        //alignContent:'center',
+        backgroundColor: '#ADD8E6',
+
+
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
+    },
+    button: {
+        backgroundColor: 'white',
+        width: '90%',
+        padding: 11,
+        borderRadius: 10,
+        alignItems: 'center',
+        borderColor: '#202020',
+        borderWidth: 2,
+
+
+    },
+    buttonContainer: {
+        width: '100%',
+        paddingLeft: 70,
+        paddingRight: 70,
+        alignSelf: 'center',
+        //justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 70,
+
+    },
+    buttonOutline: {
+        backgroundColor: 'white',
+        marginTop: 5,
+        marginBottom: 20,
+        borderColor: '#202020',
+        borderWidth: 2,
+    },
+    buttonOutlineText: {
+        color: 'black',
+        fontWeight: '400',
+        fontSize: 16,
+    },
 })
