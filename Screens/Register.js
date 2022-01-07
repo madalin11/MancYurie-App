@@ -1,11 +1,9 @@
 
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
-
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
-import React, { useState, useEffect } from 'react'
-
 import { auth ,db} from '../firebase'
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
 
 
 
@@ -40,10 +38,28 @@ const Register = ({ navigation }) => {
 
         return true;
     };
-  async function createPeople(temp){
+  async function createPeople(temp,name,photo){
         await db.collection("peoples").doc(temp).set({
-            coord:"37.78825,-122.4324"
+            coord:"",
+            name:name,
+            profilePhoto:photo
+
         }).then(()=>{
+            console.log("merge");
+        }).catch((error)=>alert(error));
+    }
+    async function createPosts(temp,descr,photoUrl){
+        await db.collection("peoples").doc(temp).collection("posts").add({
+            description:descr,
+            postsUrl:photoUrl
+
+        }).then(()=>{
+            console.log("merge");
+        }).catch((error)=>alert(error));
+    }
+    async function createFriend(temp,friendUid){
+        await db.collection("peoples").doc(temp).collection("friends").doc(friendUid)
+        .then(()=>{
             console.log("merge");
         }).catch((error)=>alert(error));
     }
@@ -63,7 +79,7 @@ const Register = ({ navigation }) => {
                 .createUserWithEmailAndPassword(email, password)
                 .then((authUser) => {
                     const auth1 = authUser.user;
-                    console.log(auth1.displayName)
+                   
                     // Updates the user attributes:
                     const fullName = firstName + " " + lastName;
                     auth1.updateProfile({
@@ -76,9 +92,12 @@ const Register = ({ navigation }) => {
                     }).then(function () {
                         // Profile updated successfully!
                         //createPeople();
-                        //temp=auth1.uid;
+                        //temp=auth1.uid; 
+                        console.log(auth1.displayName + "" + auth1.photoURL)
                         console.log(auth1.uid)
-                       createPeople(auth1.uid);
+                       createPeople(auth1.uid,auth1.displayName,auth1.photoURL);
+                       //createPosts(auth1.uid);
+
                     }, function (error) {
                         // An error happened.
                     });

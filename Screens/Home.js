@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { getAuth } from "firebase/auth"
 
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { updateProfile } from "firebase/auth";
 import NotificationListItem from '../components/NotificationListItem';
 import StoryItem from '../components/StoryItem';
@@ -15,6 +15,69 @@ const Tab = createBottomTabNavigator();
 
 
 const Home = ({ navigation }) => {
+    const [stories, setStories] = useState([]);
+    const [friends, setFriends] = useState([]);
+    const [friends2, setFriends2] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const temp = auth.currentUser.uid;
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .doc(temp)
+            .collection("stories")
+            .onSnapshot(snapshot => {
+                setStories(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                )
+            })
+        return unsubscribe;
+    }, [temp])
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .doc(temp)
+            .collection("friends")
+            .onSnapshot(snapshot => {
+                setFriends(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                )
+            })
+        return unsubscribe;
+    }, [temp])
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .onSnapshot(snapshot => {
+                setFriends2(
+                    snapshot.docs.filter((doc) => {
+                        let t = false;
+                        friends.forEach(element => {
+                            if (element.id == doc.id)
+                            {
+                                t = true;
+                            }
+                        });
+                        return t;
+                    }
+                    ).map((doc) => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })))
+                
+            })
+            
+        return unsubscribe;
+    }, [friends])
+
+   
+    console.log(stories)
+    console.log(temp)
     const handleSignOut = () => {
         auth
             .signOut()
@@ -57,17 +120,11 @@ const Home = ({ navigation }) => {
                 Your Featured Stories
             </Text>
             <ScrollView horizontal={true} backgroundColor={"transparent"}  >
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
+                {stories.map(({ id, data: { photoUrl } }) => (
+                    <StoryItem key={id}id={id} photoUrl={photoUrl}/>
+                ))}
+
+
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
@@ -75,7 +132,7 @@ const Home = ({ navigation }) => {
                     <NotificationListItem />
                 </TouchableOpacity>
 
-                
+
             </ScrollView>
         </SafeAreaView>
     )
