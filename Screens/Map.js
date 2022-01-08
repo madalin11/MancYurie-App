@@ -5,17 +5,26 @@ import React, { useState, useEffect } from 'react'
 
 const Map = ({ navigation, route }) => {
     const [mapRegion, setmapRegion] = useState({
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
+    useEffect(() => {
+        setmapRegion({
+            latitude: route.params.x,
+            longitude: route.params.y,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        })
+    }, [route,navigation])
     return (
         <View style={styles.container}>
             <MapView
-
+                region={mapRegion}
                 style={{ alignSelf: 'stretch', height: '100%' }}
-            
+                initialRegion={mapRegion}
+                loadingEnabled={true}
             >
                 <Marker  coordinate={mapRegion} >
                     <Image

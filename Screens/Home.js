@@ -95,8 +95,11 @@ const Home = ({ navigation }) => {
         }
         return result;
     }
-    const faCeva = () => {
-        navigation.navigate("Map screen");
+    const faCeva = (x,y) => {
+        navigation.navigate("Map screen",{
+            x:x,
+            y:y
+        });
     }
     return (
 
@@ -134,10 +137,10 @@ const Home = ({ navigation }) => {
             <ScrollView style={{ marginTop: 10 }}>
             {friends2.map(({ id, data }) =>
                 (data.posts.map((elm) =>
-                    (<NotificationListItem key={makeid(6)} faCeva={faCeva} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
+                    (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
                 )))
             }
-                <NotificationListItem />
+               
 
 
 
@@ -148,11 +151,11 @@ const Home = ({ navigation }) => {
 export default Home
 const styles = StyleSheet.create({
     button: {
-        width: '100%',
+        //width: '100%',
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
         // alignItems: 'center',
-        backgroundColor: '#202020',
+        //backgroundColor: '#202020',
 
 
     },
@@ -175,14 +178,14 @@ const styles = StyleSheet.create({
         height: 900,
     },
     container: {
-        padding: 15,
-        backgroundColor: '#202020',
+       // padding: 15,
+       // backgroundColor: 'tr',
         borderRadius: 10,
 
         marginTop: 10,
 
 
-        alignItems: 'center'
+        //alignItems: 'center'
     }
 
 })

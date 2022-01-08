@@ -73,7 +73,7 @@ const ChatRoom = ({ navigation, route }) => {
                 .doc(temp).collection("friends")
                 .doc(id)
                 .collection("messages")
-                .doc(makeid(6))
+                .doc(makeid(15))
                 .set({
                     message: input,
                     timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -89,7 +89,7 @@ const ChatRoom = ({ navigation, route }) => {
                 .doc(id).collection("friends")
                 .doc(temp)
                 .collection("messages")
-                .doc(makeid(7))
+                .doc(makeid(16))
                 .set({
                     message: input,
                     timeStamp: firebase.firestore.FieldValue.serverTimestamp(),

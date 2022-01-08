@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ImageBackground } from 'react-native';
 import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { ListItem, Avatar, icon } from 'react-native-elements'
@@ -6,19 +6,32 @@ import { BackgroundImage } from 'react-native-elements/dist/config';
 import MapView, { Marker } from 'react-native-maps';
 import * as firebase from "firebase";
 
-const NotificationListItem = ({faCeva, navigation, x, y, id, photoProfile, description }) => {
+const NotificationListItem = ({ faCeva, navigation, name, x, y, id, photoProfile, description }) => {
 
-    const [mapRegion, setmapRegion] = useState({});
-    
+    const [mapRegion, setMapRegion] = useState({
+        latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+    })
+    useEffect(() => {
+        setMapRegion({
+            latitude: x,
+            longitude: y,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        })
+        console.log("ce bine e1")
+    }, [x, y, navigation, name])
     return (
-        <ListItem onPress={()=>faCeva()} key ={id}>
-            <View  style={{ backgroundColor: "white", padding: 10, marginBottom: 15, marginLeft: 10, marginRight: 10, borderRadius: 15 }}>
-                <ListItem >
+        <ListItem onPress={() => faCeva(x,y)} key={id} containerStyle={{marginBottom:15,backgroundColor:'red',opacity:'10%'}}>
+            <View style={{ backgroundColor: "white", padding: 10, marginBottom: 15, marginLeft: 10, marginRight: 10, borderRadius: 15 }}>
+                <ListItem containerStyle={{backgroundColor:'transparent',alignSelf:'center'}}>
                     <View>
                         <Avatar
                             rounded
                             source={{
-                                uri: "https://png.pngtree.com/png-clipart/20190516/original/pngtree-male-avatar-vector-icon-png-image_4005105.jpg"
+                                uri: photoProfile
                             }}
                         />
 
@@ -26,25 +39,27 @@ const NotificationListItem = ({faCeva, navigation, x, y, id, photoProfile, descr
                     </View>
                     <ListItem.Content >
                         <ListItem.Title style={{ fontWeight: "bold" }}>
-                            Andrei Pop
+                            {name}
                         </ListItem.Title>
                         <ListItem.Subtitle
                             numberOfLines={1}
                             ellipsizeMode="tail"
 
                         >
-                            Ce frumos e la cuied !!!
+                            {description}
                         </ListItem.Subtitle>
 
                     </ListItem.Content>
                 </ListItem>
                 <View style={{ paddingBottom: 10 }}>
                     <MapView
-
+                        initialRegion={mapRegion}
+                        region={mapRegion}
                         scrollEnabled={false}
+                       
                         rotateEnabled={false}
                         zoomEnabled={false}
-                        style={{ alignSelf: 'stretch', height: 200, width: 350 }}
+                        style={{ alignSelf: 'center', height: 200, width: 350 }}
 
                     >
                         <Marker coordinate={mapRegion} title='Marker' focusable={true}>

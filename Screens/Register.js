@@ -80,7 +80,7 @@ const Register = ({ navigation }) => {
 
 
                         displayName: fullName,
-                        photoURL:photoUrl || "https://favpng.com/png_view/avatar-user-profile-icon-design-png/eg0SZK0T"
+                        photoURL:photoUrl || "https://www.pngfind.com/pngs/m/341-3415733_male-portrait-avatar-face-head-black-hair-shirt.png"
             
 
                     }).then(function () {
