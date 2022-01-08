@@ -5,6 +5,8 @@ import FriendListItem from '../components/FriendListItem';
 import * as firebase from "firebase";
 
 const AddChat = ({ navigation }) => {
+    const g = GeoPoint(12.13313,133.23323)
+    console.log(g)
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Add friend',

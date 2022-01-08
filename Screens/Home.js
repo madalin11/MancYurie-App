@@ -26,22 +26,6 @@ const Home = ({ navigation }) => {
         const unsubscribe = db
             .collection("peoples")
             .doc(temp)
-            .collection("stories")
-            .onSnapshot(snapshot => {
-                setStories(
-                    snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        data: doc.data(),
-                    }))
-                )
-                // setStories(stories.concat(stories2));
-            })
-        return unsubscribe;
-    }, [temp])
-    useEffect(() => {
-        const unsubscribe = db
-            .collection("peoples")
-            .doc(temp)
             .collection("friends")
             .onSnapshot(snapshot => {
                 setFriends(
@@ -76,31 +60,6 @@ const Home = ({ navigation }) => {
 
         return unsubscribe;
     }, [friends])
-    const [stories3, setStories3] = useState([]);
-
-    useEffect(() => {
-        console.log(friends2)
-friends2.forEach(element => {
-    
-
-        db
-            .collection("peoples")
-            .doc(element.id).collection("stories").onSnapshot(snapshot => {
-                setStories2(
-                    snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        data: doc.data()
-                    })))
-                    //setStories3(stories3.concat(stories2));
-                    //setStories2([])
-            })
-
-
-});
-
-    }, [friends2])
-
-
 
     const handleSignOut = () => {
         auth
@@ -126,6 +85,19 @@ friends2.forEach(element => {
             .catch(error => alert(error.message));
 
     }
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+    const faCeva = () => {
+        navigation.navigate("Map screen");
+    }
     return (
 
         <SafeAreaView style={styles.button}>
@@ -144,9 +116,15 @@ friends2.forEach(element => {
                 Your Featured Stories
             </Text>
             <ScrollView horizontal={true} backgroundColor={"transparent"}  >
-                {stories.map(({ id, data: { photoUrl } }) => (
-                    <StoryItem key={id} id={id} photoUrl={photoUrl} />
-                ))}
+                {friends2.map(({ id, data }) =>
+                (data.stories.map((elm) =>
+                    (<StoryItem key={makeid(6)} photoUrl={elm} />)
+
+
+
+
+                )))
+            }
                 {/* {stories2.map(({ id, data: { photoUrl } }) => (
                     <StoryItem key={id} id={id} photoUrl={photoUrl} />
                 ))} */}
@@ -154,9 +132,13 @@ friends2.forEach(element => {
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={() => navigation.navigate("Map screen")}>
-                    <NotificationListItem />
-                </TouchableOpacity>
+            {friends2.map(({ id, data }) =>
+                (data.posts.map((elm) =>
+                    (<NotificationListItem key={makeid(6)} faCeva={faCeva} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
+                )))
+            }
+                <NotificationListItem />
+
 
 
             </ScrollView>

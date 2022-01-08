@@ -15,7 +15,7 @@ const Map = ({ navigation, route }) => {
             <MapView
 
                 style={{ alignSelf: 'stretch', height: '100%' }}
-                region={mapRegion}
+            
             >
                 <Marker  coordinate={mapRegion} >
                     <Image
