@@ -57,16 +57,10 @@ const Register = ({ navigation }) => {
             console.log("merge");
         }).catch((error)=>alert(error));
     }
-    async function createFriend(temp,friendUid){
-        await db.collection("peoples").doc(temp).collection("friends").doc(friendUid)
-        .then(()=>{
-            console.log("merge");
-        }).catch((error)=>alert(error));
-    }
+    
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-
                 navigation.replace("Tab Stack")
             }
         })

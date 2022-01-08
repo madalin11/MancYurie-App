@@ -72,7 +72,7 @@ const AddFriend = ({ navigation }) => {
             }
             try {
 
-                if (friend.data.name.includes(textSearch))
+                if (friend.data.name.toLowerCase().includes(textSearch.toLowerCase()))
                     return true;
 
             } catch (err) {
@@ -104,6 +104,15 @@ const AddFriend = ({ navigation }) => {
     //     }
 
     // }
+    async function createFriend(id){
+        await db.collection("peoples").doc(temp).collection("friends").doc(id).set({
+            haveChats:false
+        })
+        
+        .then(()=>{
+            console.log("merge");
+        }).catch((error)=>alert(error));
+    }
     return (
 
         <View style={styles.container}>
@@ -115,16 +124,16 @@ const AddFriend = ({ navigation }) => {
 
             <Text>Saluut</Text>
             <TextInput
-                onSubmitEditing={getPhoto}
+                
                 onChangeText={(text) => setTextSearch(text)}
                 placeholder='Search' style={{ backgroundColor: 'white', height: 40, marginBottom: 30, paddingLeft: 15, marginTop: 50, borderRadius: 19 }}>
 
             </TextInput>
 
-            <ScrollView style={{ paddingBottom: 50 }}>
+            <ScrollView style={{height:'100%' }}>
                 {
                     friendsToAdd.filter(filterZZZ).map(({ id, data: { name, profilePhoto } }) => (
-                        <FriendListItem key={id} friendName={name} id={id} friendPhoto={profilePhoto} />
+                        <FriendListItem key={id} func={createFriend} friendName={name} id={id} friendPhoto={profilePhoto} />
                     ))
                 }
             </ScrollView>

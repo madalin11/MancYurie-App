@@ -16,6 +16,8 @@ const Tab = createBottomTabNavigator();
 
 const Home = ({ navigation }) => {
     const [stories, setStories] = useState([]);
+    const [stories2, setStories2] = useState([]);
+
     const [friends, setFriends] = useState([]);
     const [friends2, setFriends2] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -32,6 +34,7 @@ const Home = ({ navigation }) => {
                         data: doc.data(),
                     }))
                 )
+                // setStories(stories.concat(stories2));
             })
         return unsubscribe;
     }, [temp])
@@ -58,8 +61,7 @@ const Home = ({ navigation }) => {
                     snapshot.docs.filter((doc) => {
                         let t = false;
                         friends.forEach(element => {
-                            if (element.id == doc.id)
-                            {
+                            if (element.id == doc.id) {
                                 t = true;
                             }
                         });
@@ -69,15 +71,37 @@ const Home = ({ navigation }) => {
                         id: doc.id,
                         data: doc.data()
                     })))
-                
+
             })
-            
+
         return unsubscribe;
     }, [friends])
+    const [stories3, setStories3] = useState([]);
 
-   
-    console.log(stories)
-    console.log(temp)
+    useEffect(() => {
+        console.log(friends2)
+friends2.forEach(element => {
+    
+
+        db
+            .collection("peoples")
+            .doc(element.id).collection("stories").onSnapshot(snapshot => {
+                setStories2(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })))
+                    //setStories3(stories3.concat(stories2));
+                    //setStories2([])
+            })
+
+
+});
+
+    }, [friends2])
+
+
+
     const handleSignOut = () => {
         auth
             .signOut()
@@ -121,9 +145,11 @@ const Home = ({ navigation }) => {
             </Text>
             <ScrollView horizontal={true} backgroundColor={"transparent"}  >
                 {stories.map(({ id, data: { photoUrl } }) => (
-                    <StoryItem key={id}id={id} photoUrl={photoUrl}/>
+                    <StoryItem key={id} id={id} photoUrl={photoUrl} />
                 ))}
-
+                {/* {stories2.map(({ id, data: { photoUrl } }) => (
+                    <StoryItem key={id} id={id} photoUrl={photoUrl} />
+                ))} */}
 
             </ScrollView>
 
