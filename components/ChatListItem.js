@@ -4,19 +4,19 @@ import { StyleSheet, Text, View, Button } from 'react-native'
 import { ListItem, Avatar, icon } from 'react-native-elements'
 import { BackgroundImage } from 'react-native-elements/dist/config';
 
-const ChatListItem = () => {
+const ChatListItem = ({enterChat,id,friendPhoto , friendName}) => {
     return (
-        <ListItem>
+        <ListItem containerStyle={{borderRadius:20}} style={{marginBottom:10,marginHorizontal:15}} key={id} onPress={()=>enterChat(id,friendName,friendPhoto)}>
 
             <Avatar
                 rounded
                 source={{
-                    uri: "https://png.pngtree.com/png-clipart/20190516/original/pngtree-male-avatar-vector-icon-png-image_4005105.jpg"
+                    uri: friendPhoto
                 }}
             />
             <ListItem.Content >
                 <ListItem.Title style={{ fontWeight: "800" }}>
-                    Andrei Pop
+                   {friendName}
                 </ListItem.Title>
                 <ListItem.Subtitle
                     numberOfLines={1}
