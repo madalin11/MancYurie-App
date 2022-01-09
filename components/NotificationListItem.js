@@ -10,9 +10,9 @@ const NotificationListItem = ({ faCeva, navigation, name, x, y, id, photoProfile
 
     const [mapRegion, setMapRegion] = useState({
         latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
     })
     useEffect(() => {
         setMapRegion({
@@ -24,9 +24,9 @@ const NotificationListItem = ({ faCeva, navigation, name, x, y, id, photoProfile
         console.log("ce bine e1")
     }, [x, y, navigation, name])
     return (
-        <ListItem onPress={() => faCeva(x,y)} key={id} containerStyle={{marginBottom:15,backgroundColor:'red',opacity:'10%'}}>
-            <View style={{ backgroundColor: "white", padding: 10, marginBottom: 15, marginLeft: 10, marginRight: 10, borderRadius: 15 }}>
-                <ListItem containerStyle={{backgroundColor:'transparent',alignSelf:'center'}}>
+        <ListItem onPress={() => faCeva(x, y)} key={id} containerStyle={{ borderRadius: 15, alignSelf: 'center' }} style={{ marginBottom: 15, backgroundColor: 'transparent', borderRadius: 15 }}>
+            <View style={{ backgroundColor: "white", marginLeft: 0, marginRight: 0, borderRadius: 15 }}>
+                <ListItem containerStyle={{ backgroundColor: 'transparent', alignSelf: 'center' }}>
                     <View>
                         <Avatar
                             rounded
@@ -56,7 +56,7 @@ const NotificationListItem = ({ faCeva, navigation, name, x, y, id, photoProfile
                         initialRegion={mapRegion}
                         region={mapRegion}
                         scrollEnabled={false}
-                       
+
                         rotateEnabled={false}
                         zoomEnabled={false}
                         style={{ alignSelf: 'center', height: 200, width: 350 }}
