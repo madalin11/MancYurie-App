@@ -1,7 +1,7 @@
 import React from 'react'
 import { getAuth } from "firebase/auth"
 
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
+import { ScrollView, StyleSheet, Text, Image, TouchableOpacity, View, SafeAreaView, TabBarIOSItem } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { auth } from '../firebase';
@@ -56,7 +56,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
             </Text>
-            <ScrollView horizontal={true} backgroundColor={"transparent"}  >
+            <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false}  >
                 <StoryItem />
                 <StoryItem />
                 <StoryItem />
@@ -75,7 +75,7 @@ const Home = ({ navigation }) => {
                     <NotificationListItem />
                 </TouchableOpacity>
 
-                
+
             </ScrollView>
         </SafeAreaView>
     )
