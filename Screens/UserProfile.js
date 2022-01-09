@@ -6,8 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient';
 import NotificationListItem from '../components/NotificationListItem';
 import { doc, getDoc } from "firebase/firestore";
+import * as firebase from "firebase"
 
-const UserProfile = ({ navigation }) => {
+
+
+const UserProfile = ({ navigation, route }) => {
 
     const handleSignOut = () => {
         auth
@@ -20,9 +23,14 @@ const UserProfile = ({ navigation }) => {
             })
             .catch(error => alert(error.message))
     }
-
+    useLayoutEffect(() => {
+        setPhoto(auth.currentUser.photoURL)
+        setName(auth.currentUser.displayName)
+    }, [route])
     const [postss, setPosts] = useState([]);
     const temp = auth.currentUser.uid;
+    const [name, setName] = useState(auth.currentUser.displayName);
+    const [photo, setPhoto] = useState(auth.currentUser.photoURL);
 
     async function getPosts() {
         const docRef = db.collection('peoples').doc(temp);
@@ -81,6 +89,22 @@ const UserProfile = ({ navigation }) => {
         });
     }
 
+    const [friends, setFriends] = useState([])
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .doc(temp)
+            .collection("friends")
+            .onSnapshot(snapshot => {
+                setFriends(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                )
+            })
+        return unsubscribe;
+    }, [])
     return (
         <View style={styles.button}>
             <LinearGradient
@@ -109,14 +133,14 @@ const UserProfile = ({ navigation }) => {
             <ScrollView >
                 <View style={{ marginTop: 20, marginBottom: 50 }}>
                     <Image
-                        source={require('../Icons/cat.png')}
+                        source={{ uri: photo || "" }}
                         style={{ height: 110, width: 110, bottom: 0, alignSelf: 'center', borderRadius: 60 }}
                     />
                     <Text style={{ fontWeight: '500', fontSize: 22, top: 0, textAlign: 'center' }}>
-                        Catalin Jidoi
+                        {name}
                     </Text>
                     <Text style={{ fontWeight: '300', fontSize: 16, top: 0, textAlign: 'center' }}>
-                        @catalinj2
+
                     </Text>
 
                     <View style={{ marginTop: 30, marginLeft: 35, marginRight: 35, flexDirection: 'row' }}>
@@ -129,11 +153,11 @@ const UserProfile = ({ navigation }) => {
                     </View>
 
                     <View style={{ marginLeft: 42, marginRight: 43, flexDirection: 'row' }}>
-                        <Text style={{ flex: 1, fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-start' }}>
-                            1552
+                        <Text style={{ flex: 1, fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-start', marginLeft: 15 }}>
+                            {friends?.length}
                         </Text>
-                        <Text style={{ fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-end' }}>
-                            35
+                        <Text style={{ fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-end', marginRight: 7 }}>
+                            {postss[0]?.data.posts.length}
                         </Text>
                     </View>
 
