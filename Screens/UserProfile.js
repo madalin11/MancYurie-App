@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput } from 'react-native'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient';
 import NotificationListItem from '../components/NotificationListItem';
+import { doc, getDoc } from "firebase/firestore";
 
 const UserProfile = ({ navigation }) => {
 
@@ -20,6 +21,66 @@ const UserProfile = ({ navigation }) => {
             .catch(error => alert(error.message))
     }
 
+    const [postss, setPosts] = useState([]);
+    const temp = auth.currentUser.uid;
+
+    async function getPosts() {
+        const docRef = db.collection('peoples').doc(temp);
+
+        // asynchronously retrieve the document
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                setPosts({
+                    data: doc.data(),
+                    id: temp
+                })
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
+    }
+
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .onSnapshot(snapshot => {
+
+                setPosts(
+                    snapshot.docs.filter((doc) => (doc.id == temp
+                    )).map((doc) => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })))
+
+            })
+
+        return unsubscribe;
+    }, [db])
+
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+
+    const faCeva = (x, y) => {
+        navigation.navigate("Map screen", {
+            x: x,
+            y: y
+        });
+    }
+
     return (
         <View style={styles.button}>
             <LinearGradient
@@ -27,49 +88,64 @@ const UserProfile = ({ navigation }) => {
                 colors={['#ADD8E6', '#D6F3F2', 'white']}
                 style={styles.background}
             />
-
-            <Text style={{ top: -87, marginBottom: 75, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
-                Profile
-            </Text>
-
-            <View style={{ top: -205, left: -150 }}>
-                <TouchableOpacity raised onPress={handleSignOut}>
-                    <Image source={require('../Icons/logout.png')} style={{ marginTop: 20, marginLeft: 10, width: 20, height: 20, marginBottom: 20 }} />
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ top: -284, left: 150 }}>
-                <TouchableOpacity raised onPress={() => navigation.navigate("Update Profile")}>
-                    <Image source={require('../Icons/settings.png')} style={{ marginTop: 20, marginLeft: 10, width: 60, height: 60, marginBottom: 20 }} />
-                </TouchableOpacity>
-            </View>
-
             <View>
-                <Image
-                    source={require('../Icons/cat.png')}
-                    style={{ height: 110, width: 110, position: 'absolute', bottom: 290, alignSelf: 'center', borderRadius: 60 }}
-                />
-                <Text style={{ fontWeight: '500', fontSize: 22, top: -160, textAlign: 'center' }}>
-                    Catalin Jidoi
-                </Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, top: -160, textAlign: 'center' }}>
-                    @catalinj2
-                </Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, top: -130, left: -80 }}>
-                    Friends
-                </Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, top: -148, left: 150, }}>
-                    Posts
-                </Text>
-                <Text style={{ fontWeight: '700', fontSize: 16, top: -140, left: -75 }}>
-                    1552
-                </Text>
-                <Text style={{ fontWeight: '700', fontSize: 16, top: -158, left: 160, }}>
-                    35
-                </Text>
 
+                <View style={{ flexDirection: 'column' }}>
+                    <Text style={{ top: 24, marginTop: 60, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
+                        Profile
+                    </Text>
+
+                    <TouchableOpacity raised onPress={handleSignOut} style={{ alignSelf: 'flex-start' }}>
+                        <Image source={require('../Icons/logout.png')} style={{ marginLeft: 10, width: 20, height: 20 }} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity raised onPress={() => navigation.navigate("Update Profile")} style={{ alignSelf: 'flex-end' }}>
+                        <Image source={require('../Icons/settings.png')} style={{ width: 60, height: 60, marginTop: -40, left: 7 }} />
+                    </TouchableOpacity>
+                </View>
             </View>
 
+
+            <ScrollView >
+                <View style={{ marginTop: 20, marginBottom: 50 }}>
+                    <Image
+                        source={require('../Icons/cat.png')}
+                        style={{ height: 110, width: 110, bottom: 0, alignSelf: 'center', borderRadius: 60 }}
+                    />
+                    <Text style={{ fontWeight: '500', fontSize: 22, top: 0, textAlign: 'center' }}>
+                        Catalin Jidoi
+                    </Text>
+                    <Text style={{ fontWeight: '300', fontSize: 16, top: 0, textAlign: 'center' }}>
+                        @catalinj2
+                    </Text>
+
+                    <View style={{ marginTop: 30, marginLeft: 35, marginRight: 35, flexDirection: 'row' }}>
+                        <Text style={{ flex: 1, fontWeight: '300', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-start' }}>
+                            Friends
+                        </Text>
+                        <Text style={{ fontWeight: '300', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-end' }}>
+                            Posts
+                        </Text>
+                    </View>
+
+                    <View style={{ marginLeft: 42, marginRight: 43, flexDirection: 'row' }}>
+                        <Text style={{ flex: 1, fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-start' }}>
+                            1552
+                        </Text>
+                        <Text style={{ fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-end' }}>
+                            35
+                        </Text>
+                    </View>
+
+
+                </View>
+
+                {postss.map(({ id, data }) =>
+                (data.posts.map((elm) =>
+                    (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
+                )))
+                }
+            </ScrollView>
         </View >
     )
 }
@@ -81,7 +157,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        //alignItems: 'center',
         //backgroundColor: '#ffc0c0'
 
     },

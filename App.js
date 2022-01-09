@@ -22,8 +22,8 @@ export default function App() {
 
         <Stack.Screen options={{ headerShown: false }} name="Login screen" component={Login} />
         <Stack.Screen options={{ headerShown: false }} name="Register screen" component={Register} />
-        <Stack.Screen options={{}} name="Chat room" component={ChatRoom} />
-        <Stack.Screen options={{}} name="Add chat" component={AddChat} />
+        <Stack.Screen options={{ headerShown: false }} name="Chat room" component={ChatRoom} />
+        <Stack.Screen options={{ headerShown: false }} name="Add chat" component={AddChat} />
         <Stack.Screen options={{ headerShown: false }} name="Tab Stack" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
