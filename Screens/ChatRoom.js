@@ -3,12 +3,18 @@ import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, Platfor
 import { auth } from '../firebase'
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ChatRoom = () => {
     const [input, setInput] = useState('');
     const sendMessage = () => { }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.container}
@@ -19,7 +25,7 @@ const ChatRoom = () => {
 
                     </ScrollView>
                     <View style={styles.footer}>
-                        <TextInput style={{color:"red"}}
+                        <TextInput style={{ color: "red" }}
                             value={input}
                             onChangeText={(text) => setInput(text)}
                             placeholder="Message"
@@ -48,16 +54,23 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         padding: 15,
-        
 
 
+
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
     },
     textInput: {
         bottom: 0,
         height: 40,
         flex: 1,
         marginRight: 15,
-        paddingLeft:15,
+        paddingLeft: 15,
         backgroundColor: "#202020",
         color: "white",
         borderRadius: 30,

@@ -11,7 +11,9 @@ const Conversations = ({ navigation }) => {
                 colors={['#ADD8E6', '#D6F3F2', 'white']}
                 style={styles.background}
             />
-            <Text>Conversatii tata</Text>
+            <Text style={{ top: -62, marginBottom: 75, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
+                Conversations
+            </Text>
             <TouchableOpacity
                 onPress={() => navigation.navigate("Chat room")}>
                 <ChatListItem />
