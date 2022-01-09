@@ -1,6 +1,6 @@
 
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
-import { auth ,db} from '../firebase'
+import { auth, db } from '../firebase'
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
@@ -16,7 +16,7 @@ const Register = ({ navigation }) => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [photoUrl, setPhotoUrl] = useState('');
-   
+
     function checkTextInput() {
         //Check for the Name TextInput
         if (!firstName.trim()) {
@@ -38,26 +38,26 @@ const Register = ({ navigation }) => {
 
         return true;
     };
-  async function createPeople(temp,name,photo){
+    async function createPeople(temp, name, photo) {
         await db.collection("peoples").doc(temp).set({
-            coord:"",
-            name:name,
-            profilePhoto:photo
+            coord: "",
+            name: name,
+            profilePhoto: photo
 
-        }).then(()=>{
+        }).then(() => {
             console.log("merge");
-        }).catch((error)=>alert(error));
+        }).catch((error) => alert(error));
     }
-    async function createPosts(temp,descr,photoUrl){
+    async function createPosts(temp, descr, photoUrl) {
         await db.collection("peoples").doc(temp).collection("posts").add({
-            description:descr,
-            postsUrl:photoUrl
+            description: descr,
+            postsUrl: photoUrl
 
-        }).then(()=>{
+        }).then(() => {
             console.log("merge");
-        }).catch((error)=>alert(error));
+        }).catch((error) => alert(error));
     }
-    
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
@@ -73,24 +73,20 @@ const Register = ({ navigation }) => {
                 .createUserWithEmailAndPassword(email, password)
                 .then((authUser) => {
                     const auth1 = authUser.user;
-                   
+
                     // Updates the user attributes:
                     const fullName = firstName + " " + lastName;
                     auth1.updateProfile({
-
-
                         displayName: fullName,
-                        photoURL:photoUrl || "https://www.pngfind.com/pngs/m/341-3415733_male-portrait-avatar-face-head-black-hair-shirt.png"
-            
-
+                        photoURL: photoUrl || "https://www.pngfind.com/pngs/m/341-3415733_male-portrait-avatar-face-head-black-hair-shirt.png"
                     }).then(function () {
                         // Profile updated successfully!
                         //createPeople();
                         //temp=auth1.uid; 
                         console.log(auth1.displayName + "" + auth1.photoURL)
                         console.log(auth1.uid)
-                       createPeople(auth1.uid,auth1.displayName,auth1.photoURL);
-                       //createPosts(auth1.uid);
+                        createPeople(auth1.uid, auth1.displayName, auth1.photoURL);
+                        //createPosts(auth1.uid);
 
                     }, function (error) {
                         // An error happened.
