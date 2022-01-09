@@ -1,5 +1,5 @@
+import { StyleSheet, Text, TextInput, Image, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import FriendListItem from '../components/FriendListItem';
 import { auth, db,storage } from '../firebase'
@@ -122,14 +122,35 @@ const AddFriend = ({ navigation }) => {
                 style={styles.background}
             />
 
-            <Text>Saluut</Text>
-            <TextInput
-                
-                onChangeText={(text) => setTextSearch(text)}
-                placeholder='Search' style={{ backgroundColor: 'white', height: 40, marginBottom: 30, paddingLeft: 15, marginTop: 50, borderRadius: 19 }}>
+            <Text style={{ top: -175, marginBottom: 75, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
+                Find Friends
+            </Text>
+            <View style={{ width: '98%', paddingRight: 80, top: 40 }}>
+                <TextInput
+                    placeholder="Search by name"
+                    type="text"
+                    autoCapitalize="words"
+                    onChangeText={(text) => setTextSearch(text)}
+                    style={styles.input}>
 
-            </TextInput>
+                </TextInput>
+            </View>
+            <View style={{
+                backgroundColor: 'white',
+                paddingHorizontal: 35,
+                paddingVertical: 10.8,
+                paddingLeft: 30,
+                paddingRight: 20,
+                borderRadius: 17,
+                marginTop: 0,
+                top: -281.5,
+                left: 95,
+            }}>
+                <TouchableOpacity>
+                    <Image source={require('../Icons/search.png')} style={{ width: 30, height: 30, }}></Image>
+                </TouchableOpacity>
 
+            </View>
             <ScrollView style={{height:'100%' }}>
                 {
                     friendsToAdd.filter(filterZZZ).map(({ id, data: { name, profilePhoto } }) => (
@@ -137,7 +158,6 @@ const AddFriend = ({ navigation }) => {
                     ))
                 }
             </ScrollView>
-
         </View>
 
     )
@@ -150,6 +170,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingTop: 50,
         marginBottom: 135
+    },
+    input: {
+        backgroundColor: 'white',
+        paddingHorizontal: 40,
+        paddingVertical: 15,
+        borderRadius: 17,
+        marginTop: 7,
+        width: '83%',
+        alignSelf: 'center',
+        fontSize: 18,
+        top: -270,
+        left: 15,
+
     },
     background: {
         position: 'absolute',

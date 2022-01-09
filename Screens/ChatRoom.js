@@ -3,8 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, Platfor
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { db, auth } from '../firebase'
+
 
 const ChatRoom = ({ navigation, route }) => {
     const temp = auth.currentUser.uid;
@@ -125,7 +129,14 @@ const ChatRoom = ({ navigation, route }) => {
     const scrollViewRef = useRef();
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <KeyboardAvoidingView 
+
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
+            <KeyboardAvoidingView
+
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.container}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 90 : undefined}
@@ -190,8 +201,13 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 15,
 
-
-
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
     },
     textInput: {
         bottom: 0,

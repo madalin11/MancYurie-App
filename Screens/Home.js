@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getAuth } from "firebase/auth"
 
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
+import { ScrollView, StyleSheet, Text, Image, TouchableOpacity, View, SafeAreaView, TabBarIOSItem } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { auth, db } from '../firebase';
@@ -118,7 +118,8 @@ const Home = ({ navigation }) => {
             <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
             </Text>
-            <ScrollView horizontal={true} backgroundColor={"transparent"}  >
+
+            <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false} >
                 {friends2.map(({ id, data }) =>
                 (data.stories.map((elm) =>
                     (<StoryItem key={makeid(6)} photoUrl={elm} />)
@@ -131,6 +132,7 @@ const Home = ({ navigation }) => {
                 {/* {stories2.map(({ id, data: { photoUrl } }) => (
                     <StoryItem key={id} id={id} photoUrl={photoUrl} />
                 ))} */}
+
 
             </ScrollView>
 
