@@ -1,5 +1,5 @@
-import React, { useLayoutEffect, useState, useRef } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput, TouchableOpacityBase, Image } from 'react-native'
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput, TouchableOpacityBase,Keyboard, Image } from 'react-native'
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -105,6 +105,7 @@ const ChatRoom = ({ navigation, route }) => {
                 .catch((error) => alert(error));
         }
         setInput('')
+        scrollViewRef.current.scrollToEnd({ animated: true })
     }
 
     function checkTextInput() {
@@ -129,6 +130,29 @@ const ChatRoom = ({ navigation, route }) => {
             minuteFormatted + morning;
     }
     const scrollViewRef = useRef();
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+    useEffect(() => {
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => 
+            scrollViewRef.current.scrollToEnd({ animated: true })
+        );
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+          
+        });
+    
+        return () => {
+          showSubscription.remove();
+          hideSubscription.remove();
+        };
+      }, []);
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
 
@@ -158,8 +182,8 @@ const ChatRoom = ({ navigation, route }) => {
                 />
 
             </ListItem>
-            <KeyboardAvoidingView
-
+            <KeyboardAvoidingView 
+                
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.container}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 0 : undefined}
@@ -176,7 +200,7 @@ const ChatRoom = ({ navigation, route }) => {
                             return x.data.timeStamp - y.data.timeStamp
                         }).map(({ id, data: { message, timeStamp, uid } }) =>
                             uid === temp ? (
-                                <View style={{
+                                <View key={makeid(12)} style={{
                                     backgroundColor: 'rgba(0, 185, 255, 0.25)',
                                     alignSelf: 'flex-end',
                                     borderBottomStartRadius: 15,
@@ -194,7 +218,7 @@ const ChatRoom = ({ navigation, route }) => {
                                     </Text>
                                 </View>
                             ) : (
-                                <View style={{
+                                <View key={makeid(12)} style={{
                                     backgroundColor: 'rgba(255, 255, 255, 0.5)',
                                     alignSelf: 'flex-start',
                                     borderBottomStartRadius: 15,

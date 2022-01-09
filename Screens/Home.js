@@ -11,6 +11,7 @@ import StoryItem from '../components/StoryItem';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ListItem, Avatar, icon } from 'react-native-elements'
 const Tab = createBottomTabNavigator();
+import * as firebase from 'firebase'
 
 
 
@@ -102,6 +103,13 @@ const Home = ({ navigation }) => {
             y: y
         });
     }
+    async function createStory() {
+        await db.collection("peoples").doc(temp).update({
+            stories: firebase.firestore.FieldValue.arrayUnion("https://www.pngfind.com/pngs/m/341-3415733_male-portrait-avatar-face-head-black-hair-shirt.png")
+        }).then(() => {
+            console.log("merge");
+        }).catch((error) => alert(error));
+    }
     return (
 
         <SafeAreaView style={styles.button}>
@@ -121,7 +129,7 @@ const Home = ({ navigation }) => {
             </Text>
 
             <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false} >
-                <TouchableOpacity style={{ marginTop: 14, marginHorizontal: 13 }}>
+                <TouchableOpacity onPress={() => createStory()} style={{ marginTop: 14, marginHorizontal: 13 }}>
                     <Avatar
                         containerStyle={{ backgroundColor: '#202020' }}
                         rounded
@@ -129,16 +137,9 @@ const Home = ({ navigation }) => {
                         source={require('../Icons/addStory.png')}
                     />
                 </TouchableOpacity>
-
-
-
                 {friends2.map(({ id, data }) =>
                 (data.stories.map((elm) =>
                     (<StoryItem key={makeid(6)} photoUrl={elm} />)
-
-
-
-
                 )))
                 }
                 {/* {stories2.map(({ id, data: { photoUrl } }) => (
