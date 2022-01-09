@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AddChat from './AddChat';
 import Map from './Map';
+import ChatRoom from './ChatRoom';
 import Home from './Home';
 import Conversations from './Conversations';
 import UserProfile from './UserProfile';
@@ -12,6 +13,7 @@ import AddFriend from './AddFriend';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
+
 
 const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity
@@ -33,12 +35,14 @@ const CustomTabBarButton = ({ children, onPress }) => (
     </TouchableOpacity>
 );
 
-const TabStack = () => {
+const TabStack = ({navigation}) => {
+
     return (
 
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarInactiveBackgroundColor: 'white' }}  >
 
-            <Tab.Screen name=" " component={Home} options={{
+
+            <Tab.Screen name="Home screen" component={Home} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
                         <Image
@@ -53,7 +57,7 @@ const TabStack = () => {
                 ),
             }}
             />
-            <Tab.Screen name="  " component={Conversations} options={{
+            <Tab.Screen name="Conversations" component={Conversations} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
                         <Image
@@ -67,7 +71,7 @@ const TabStack = () => {
                     </View>
                 ),
             }} />
-            <Tab.Screen options={{}} name="     " component={AddFriend} options={{
+            <Tab.Screen options={{}} name="Add Friend" component={AddFriend} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: 'center', justifyContent: 'center', top: -16 }}>
                         <Image
@@ -81,7 +85,7 @@ const TabStack = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="   " component={Map} options={{
+            <Tab.Screen name="Map screen" component={Map} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
                         <Image
@@ -95,7 +99,7 @@ const TabStack = () => {
                     </View>
                 ),
             }} />
-            <Tab.Screen name="    " component={StackScreens} options={{
+            <Tab.Screen name="Profile screen" component={StackScreens} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
                         <Image
@@ -109,7 +113,9 @@ const TabStack = () => {
                     </View>
                 ),
             }} />
+
         </Tab.Navigator>
+       
     );
 
 }

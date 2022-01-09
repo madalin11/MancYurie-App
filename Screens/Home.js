@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { getAuth } from "firebase/auth"
 
 import { ScrollView, StyleSheet, Text, Image, TouchableOpacity, View, SafeAreaView, TabBarIOSItem } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { updateProfile } from "firebase/auth";
 import NotificationListItem from '../components/NotificationListItem';
 import StoryItem from '../components/StoryItem';
@@ -15,6 +15,52 @@ const Tab = createBottomTabNavigator();
 
 
 const Home = ({ navigation }) => {
+    const [stories, setStories] = useState([]);
+    const [stories2, setStories2] = useState([]);
+
+    const [friends, setFriends] = useState([]);
+    const [friends2, setFriends2] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const temp = auth.currentUser.uid;
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .doc(temp)
+            .collection("friends")
+            .onSnapshot(snapshot => {
+                setFriends(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        data: doc.data(),
+                    }))
+                )
+            })
+        return unsubscribe;
+    }, [temp])
+    useEffect(() => {
+        const unsubscribe = db
+            .collection("peoples")
+            .onSnapshot(snapshot => {
+                setFriends2(
+                    snapshot.docs.filter((doc) => {
+                        let t = false;
+                        friends.forEach(element => {
+                            if (element.id == doc.id) {
+                                t = true;
+                            }
+                        });
+                        return t;
+                    }
+                    ).map((doc) => ({
+                        id: doc.id,
+                        data: doc.data()
+                    })))
+
+            })
+
+        return unsubscribe;
+    }, [friends])
+
     const handleSignOut = () => {
         auth
             .signOut()
@@ -39,6 +85,22 @@ const Home = ({ navigation }) => {
             .catch(error => alert(error.message));
 
     }
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+    const faCeva = (x,y) => {
+        navigation.navigate("Map screen",{
+            x:x,
+            y:y
+        });
+    }
     return (
 
         <SafeAreaView style={styles.button}>
@@ -56,24 +118,32 @@ const Home = ({ navigation }) => {
             <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
             </Text>
-            <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false}  >
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
-                <StoryItem />
+
+            <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false} >
+                {friends2.map(({ id, data }) =>
+                (data.stories.map((elm) =>
+                    (<StoryItem key={makeid(6)} photoUrl={elm} />)
+
+
+
+
+                )))
+            }
+                {/* {stories2.map(({ id, data: { photoUrl } }) => (
+                    <StoryItem key={id} id={id} photoUrl={photoUrl} />
+                ))} */}
+
+
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={() => navigation.navigate("Map screen")}>
-                    <NotificationListItem />
-                </TouchableOpacity>
+            {friends2.map(({ id, data }) =>
+                (data.posts.map((elm) =>
+                    (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
+                )))
+            }
+               
+
 
 
             </ScrollView>
@@ -83,11 +153,11 @@ const Home = ({ navigation }) => {
 export default Home
 const styles = StyleSheet.create({
     button: {
-        width: '100%',
+        //width: '100%',
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
         // alignItems: 'center',
-        backgroundColor: '#202020',
+        //backgroundColor: '#202020',
 
 
     },
@@ -110,14 +180,14 @@ const styles = StyleSheet.create({
         height: 900,
     },
     container: {
-        padding: 15,
-        backgroundColor: '#202020',
+       // padding: 15,
+       // backgroundColor: 'tr',
         borderRadius: 10,
 
         marginTop: 10,
 
 
-        alignItems: 'center'
+        //alignItems: 'center'
     }
 
 })
