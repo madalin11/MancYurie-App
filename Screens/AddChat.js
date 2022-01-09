@@ -1,11 +1,12 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, Keyboard, TextInput, View, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { auth, db } from '../firebase'
 import FriendListItem from '../components/FriendListItem';
 import * as firebase from "firebase";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AddChat = ({ navigation }) => {
-    
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Add friend',
@@ -139,20 +140,39 @@ const AddChat = ({ navigation }) => {
                 console.log("merge4");
             })
             .catch((error) => alert(error));
-            navigation.goBack()
+        navigation.goBack()
     }
     return (
         <View style={styles.container}>
-            <TextInput
-                onChangeText={(text) => setSearchText(text)}
-                //onSubmitEditing={addConversation}
-                //style={{ height: 50, marginHorizontal: 80 }}
-                placeholder='enter name'
-            ></TextInput>
+            <LinearGradient
+                // Background Linear Gradient
+                colors={['#ADD8E6', '#D6F3F2', 'white']}
+                style={styles.background}
+            />
+
+            <Text style={{ marginTop: 85, fontSize: 24, textAlign: 'center', color: '#3570EC', fontWeight: '500' }}>
+                New conversation
+            </Text>
+
+            <View style={{ marginBottom: 10, marginTop: 30 }}>
+
+                <TextInput
+
+                    onChangeText={(text) => setTextSearch(text)}
+                    placeholder='Search by name' style={{ fontSize: 18, backgroundColor: 'white', height: 45, marginBottom: 1, paddingLeft: 55, marginHorizontal: 35, marginTop: 0, borderRadius: 19 }}
+                >
+
+                </TextInput>
+
+                <TouchableOpacity style={{ position: 'absolute' }} onPress={Keyboard.dismiss}>
+                    <Image source={require('../Icons/search.png')} style={{ top: 8, left: 49, width: 30, height: 30, }}></Image>
+                </TouchableOpacity>
+
+            </View>
             <ScrollView style={{ height: '100%' }}>
                 {
                     friendsToAdd.filter(filterZZZ).map(({ id, data: { name, profilePhoto } }) => (
-                        <FriendListItem key={id} func={addConversation} friendName={name} id={id} friendPhoto={profilePhoto} />
+                        <FriendListItem key={id} iconPath={2} func={addConversation} friendName={name} id={id} friendPhoto={profilePhoto} />
                     ))
                 }
             </ScrollView>
@@ -175,7 +195,14 @@ const styles = StyleSheet.create({
 
     }, container: {
         paddingHorizontal: 10,
-        paddingTop: 50,
+        //paddingTop: 50,
         marginBottom: 135
     },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 900,
+    }
 })

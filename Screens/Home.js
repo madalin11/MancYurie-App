@@ -9,6 +9,7 @@ import { updateProfile } from "firebase/auth";
 import NotificationListItem from '../components/NotificationListItem';
 import StoryItem from '../components/StoryItem';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ListItem, Avatar, icon } from 'react-native-elements'
 const Tab = createBottomTabNavigator();
 
 
@@ -95,10 +96,10 @@ const Home = ({ navigation }) => {
         }
         return result;
     }
-    const faCeva = (x,y) => {
-        navigation.navigate("Map screen",{
-            x:x,
-            y:y
+    const faCeva = (x, y) => {
+        navigation.navigate("Map screen", {
+            x: x,
+            y: y
         });
     }
     return (
@@ -120,6 +121,17 @@ const Home = ({ navigation }) => {
             </Text>
 
             <ScrollView horizontal={true} backgroundColor={"transparent"} showsHorizontalScrollIndicator={false} >
+                <TouchableOpacity style={{ marginTop: 14, marginHorizontal: 13 }}>
+                    <Avatar
+                        containerStyle={{ backgroundColor: '#202020' }}
+                        rounded
+                        size={"large"}
+                        source={require('../Icons/addStory.png')}
+                    />
+                </TouchableOpacity>
+
+
+
                 {friends2.map(({ id, data }) =>
                 (data.stories.map((elm) =>
                     (<StoryItem key={makeid(6)} photoUrl={elm} />)
@@ -128,7 +140,7 @@ const Home = ({ navigation }) => {
 
 
                 )))
-            }
+                }
                 {/* {stories2.map(({ id, data: { photoUrl } }) => (
                     <StoryItem key={id} id={id} photoUrl={photoUrl} />
                 ))} */}
@@ -137,12 +149,12 @@ const Home = ({ navigation }) => {
             </ScrollView>
 
             <ScrollView style={{ marginTop: 10 }}>
-            {friends2.map(({ id, data }) =>
+                {friends2.map(({ id, data }) =>
                 (data.posts.map((elm) =>
                     (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
                 )))
-            }
-               
+                }
+
 
 
 
@@ -180,8 +192,8 @@ const styles = StyleSheet.create({
         height: 900,
     },
     container: {
-       // padding: 15,
-       // backgroundColor: 'tr',
+        // padding: 15,
+        // backgroundColor: 'tr',
         borderRadius: 10,
 
         marginTop: 10,
