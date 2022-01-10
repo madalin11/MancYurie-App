@@ -13,6 +13,7 @@ import ChatRoom from './Screens/ChatRoom';
 import TabStack from './Screens/TabStack';
 import AddChat from './Screens/AddChat';
 import CameraRoom from './Screens/CameraRoom';
+import ImagePicker1 from './Screens/ImagePicker1';
 
 
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Chat room" component={ChatRoom} />
         <Stack.Screen options={{ headerShown: false }} name="Add chat" component={AddChat} />
         <Stack.Screen options={{ headerShown: false }} name="Camera Room" component={CameraRoom} />
+        <Stack.Screen options={{ headerShown: false }} name="ImagePicker1" component={ImagePicker1} />
         <Stack.Screen options={{ headerShown: false }} name="Tab Stack" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
