@@ -112,6 +112,13 @@ const AddFriend = ({ navigation }) => {
             .then(() => {
                 console.log("merge");
             }).catch((error) => alert(error));
+        await db.collection("peoples").doc(id).collection("friends").doc(temp).set({
+            haveChats: false
+        })
+
+            .then(() => {
+                console.log("merge");
+            }).catch((error) => alert(error));
     }
     return (
 
