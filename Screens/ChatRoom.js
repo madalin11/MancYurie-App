@@ -1,11 +1,11 @@
 import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput, TouchableOpacityBase,Keyboard, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput, TouchableOpacityBase, Keyboard, Image } from 'react-native'
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { Camera } from 'expo-camera';
 import { ListItem, Avatar } from 'react-native-elements'
 import { db, auth } from '../firebase'
 
@@ -13,6 +13,8 @@ import { db, auth } from '../firebase'
 const ChatRoom = ({ navigation, route }) => {
     const temp = auth.currentUser.uid;
     const current = route.params.id;
+    const [hasPermission, setHasPermission] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
     const [input, setInput] = useState('');
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -20,7 +22,6 @@ const ChatRoom = ({ navigation, route }) => {
                 <View
                     style={{
                         flexDirection: 'row',
-
                         alignItems: 'center'
                     }}
                 >
@@ -69,7 +70,8 @@ const ChatRoom = ({ navigation, route }) => {
                 }))
             ))
         return unsubscribe;
-    }, [route])
+    }, [route, navigation])
+    const snapCamera = route.params.snapCamera;
     async function sendMessage(id) {
         if (checkTextInput()) {
             await db
@@ -141,18 +143,18 @@ const ChatRoom = ({ navigation, route }) => {
         return result;
     }
     useEffect(() => {
-        const showSubscription = Keyboard.addListener("keyboardDidShow", () => 
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
             scrollViewRef.current.scrollToEnd({ animated: true })
         );
         const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-          
+
         });
-    
+
         return () => {
-          showSubscription.remove();
-          hideSubscription.remove();
+            showSubscription.remove();
+            hideSubscription.remove();
         };
-      }, []);
+    }, []);
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
 
@@ -182,8 +184,8 @@ const ChatRoom = ({ navigation, route }) => {
                 />
 
             </ListItem>
-            <KeyboardAvoidingView 
-                
+            <KeyboardAvoidingView
+
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.container}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 0 : undefined}
@@ -199,48 +201,66 @@ const ChatRoom = ({ navigation, route }) => {
                         {messages.sort((x, y) => {
                             return x.data.timeStamp - y.data.timeStamp
                         }).map(({ id, data: { message, timeStamp, uid } }) =>
-                            uid === temp ? (
-                                <View key={makeid(12)} style={{
-                                    backgroundColor: 'rgba(0, 185, 255, 0.25)',
-                                    alignSelf: 'flex-end',
-                                    borderBottomStartRadius: 15,
-                                    borderTopLeftRadius: 15,
-                                    borderBottomRightRadius: 15,
-                                    marginHorizontal: 10,
-                                    marginVertical: 5,
-                                    paddingHorizontal: 10,
-                                    alignContent: 'center',
-                                    maxWidth: 250,
-                                }}>
-                                    <Avatar />
-                                    <Text style={styles.reciver}>
-                                        {message}
-                                    </Text>
-                                </View>
-                            ) : (
-                                <View key={makeid(12)} style={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                                    alignSelf: 'flex-start',
-                                    borderBottomStartRadius: 15,
-                                    borderTopRightRadius: 15,
-                                    borderBottomRightRadius: 15,
-                                    marginHorizontal: 10,
-                                    marginVertical: 5,
-                                    paddingHorizontal: 10,
-                                    alignContent: 'center',
-                                    maxWidth: 250,
-                                }}>
-                                    <Avatar />
-                                    <Text style={styles.transmiter}>
-                                        {message}
-                                    </Text>
-                                </View>
-                            )
-                        )
+                            uid === temp ? ((message?.includes('https:') ?
+                                (<View key={makeid(9)} style={{ alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: 10 }}>
+                                    <Image key={makeid(4)}
+                                        source={{ uri: message }}
+                                        style={{ height: 140, width: 140, borderRadius: 15 }}
+                                    />
+                                </View>) : (
+                                    <View key={makeid(12)} style={{
+                                        backgroundColor: 'rgba(0, 185, 255, 0.25)',
+                                        alignSelf: 'flex-end',
+                                        borderBottomStartRadius: 15,
+                                        borderTopLeftRadius: 15,
+                                        borderBottomRightRadius: 15,
+                                        marginHorizontal: 10,
+                                        marginVertical: 5,
+                                        paddingHorizontal: 10,
+                                        alignContent: 'center',
+                                        maxWidth: 250,
+                                    }}>
+                                        <Avatar />
+                                        <Text style={styles.reciver}>
+                                            {message}
+                                        </Text>
+                                    </View>
+                                ))) : ((message?.includes('https:') ?
+                                    (
+                                        (<View key={makeid(9)} style={{ alignSelf: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
+                                            <Image key={makeid(4)}
+                                                source={{ uri: message }}
+                                                style={{ height: 140, width: 140, borderRadius: 15 }}
+                                            />
+                                        </View>)
+                                    ) : (
+                                        <View key={makeid(12)} style={{
+                                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                                            alignSelf: 'flex-start',
+                                            borderBottomStartRadius: 15,
+                                            borderTopRightRadius: 15,
+                                            borderBottomRightRadius: 15,
+                                            marginHorizontal: 10,
+                                            marginVertical: 5,
+                                            paddingHorizontal: 10,
+                                            alignContent: 'center',
+                                            maxWidth: 250,
+                                        }}>
+                                            <Avatar />
+                                            <Text style={styles.transmiter}>
+                                                {message}
+                                            </Text>
+                                        </View>
+                                    ))
+                            ))
                         }
                     </ScrollView>
                     <View style={styles.footer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("Camera Room", {
+                            id: route.params.id,
+                            friendName: route.params.friendName,
+                            friendPhoto: route.params.friendPhoto
+                        })}>
                             <Image source={require('../Icons/photo.png')} style={{ height: 60, width: 60, marginLeft: -15, marginRight: -25, marginBottom: -15, marginTop: -15 }}></Image>
                         </TouchableOpacity>
                         <TextInput
@@ -257,7 +277,7 @@ const ChatRoom = ({ navigation, route }) => {
                     </View>
                 </>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
