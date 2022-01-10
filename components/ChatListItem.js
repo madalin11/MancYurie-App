@@ -22,7 +22,7 @@ const ChatListItem = ({ enterChat, id, friendPhoto, friendName }) => {
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    Ce faci azi mai ?adadadadadddwadwfefefefeeffewgegw
+                    Ati fost hackeriti
                 </ListItem.Subtitle>
 
             </ListItem.Content>

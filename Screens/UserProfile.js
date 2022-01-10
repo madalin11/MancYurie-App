@@ -154,10 +154,10 @@ const UserProfile = ({ navigation, route }) => {
 
                     <View style={{ marginLeft: 42, marginRight: 43, flexDirection: 'row' }}>
                         <Text style={{ flex: 1, fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-start', marginLeft: 15 }}>
-                            {friends?.length}
+                            {friends?.length || 0}
                         </Text>
                         <Text style={{ fontWeight: '700', fontSize: 16, top: 0, left: 0, alignSelf: 'flex-end', marginRight: 7 }}>
-                            {postss[0]?.data.posts.length}
+                            {postss[0]?.data.posts?.length || 0}
                         </Text>
                     </View>
 
@@ -165,7 +165,7 @@ const UserProfile = ({ navigation, route }) => {
                 </View>
 
                 {postss.map(({ id, data }) =>
-                (data.posts.map((elm) =>
+                (data.posts?.map((elm) =>
                     (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
                 )))
                 }

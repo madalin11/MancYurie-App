@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as firebase from 'firebase'
 import { auth, storage, db } from '../firebase';
@@ -92,19 +92,19 @@ const CameraRoom = ({ navigation, route }) => {
         // //const blob = await response.blob().then(() => console.log(";;;;;;"))
         console.log(photo.uri)
         // var refp = storage.ref().child("my-image");
-        var refp1 = await storage.ref().child("my-image/dddd" + makeid(5));
+        // var refp1 = await storage.ref().child("my-image/dddd" + makeid(5));
+        // // await refp1.put(blob)
+        // //     .then(() => {
+
+        // //     }).catch((error) => alert(error));
+        // const blob = await uploadImage(photo.uri)
         // await refp1.put(blob)
-        //     .then(() => {
+        // await refp1.getDownloadURL().then((downloadURL) => {
+        //     console.log('File available at', downloadURL);
+        sendMPhoto(photo.uri)
 
-        //     }).catch((error) => alert(error));
-        const blob = await uploadImage(photo.uri)
-        await refp1.put(blob)
-        await refp1.getDownloadURL().then((downloadURL) => {
-            console.log('File available at', downloadURL);
-            sendMPhoto(downloadURL)
-
-        }).catch((error) => alert(error));
-        console.log("merge");
+        // }).catch((error) => alert(error));
+        // console.log("merge");
         // await sendMPhoto().then(() => console.log("s-a trimis"))
 
         navigation.navigate("Chat room", {
@@ -127,6 +127,13 @@ const CameraRoom = ({ navigation, route }) => {
                 type={type}
                 ref={ref}>
                 <View style={styles.buttonContainer}>
+
+                    <TouchableOpacity
+                        onPress={_takePhoto}
+                        style={{ flex: 1.5 }}
+                    >
+                        <Image style={{ width: 80, height: 80 }} source={require('../Icons/snap.png')}></Image>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
@@ -137,12 +144,7 @@ const CameraRoom = ({ navigation, route }) => {
                             );
 
                         }}>
-                        <Text style={styles.text}> Flip </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={_takePhoto}
-                    >
-                        <Text style={{ fontSize: 28, color: 'white' }}>Snap Photo</Text>
+                        <Image style={{ width: 40, height: 40 }} source={require('../Icons/camera.png')}></Image>
                     </TouchableOpacity>
                 </View>
             </Camera>
@@ -155,7 +157,7 @@ export default CameraRoom
 const styles = StyleSheet.create({
     container: { flex: 1, height: "100%" },
     camera: { flex: 1, height: "100%" },
-    buttonContainer: {},
-    button: { backgroundColor: 'white', marginTop: 100 },
+    buttonContainer: { bottom: 60, flexDirection: 'row', alignSelf: 'flex-start', alignContent: 'center', alignItems: 'flex-end', flex: 1 },
+    button: { marginTop: 100, flex: 1.5 },
     text: {},
 })

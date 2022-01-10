@@ -104,11 +104,7 @@ const Home = ({ navigation }) => {
         });
     }
     async function createStory() {
-        await db.collection("peoples").doc(temp).update({
-            stories: firebase.firestore.FieldValue.arrayUnion("https://www.pngfind.com/pngs/m/341-3415733_male-portrait-avatar-face-head-black-hair-shirt.png")
-        }).then(() => {
-            console.log("merge");
-        }).catch((error) => alert(error));
+        navigation.navigate("ImagePicker1")
     }
     return (
 
@@ -138,7 +134,7 @@ const Home = ({ navigation }) => {
                     />
                 </TouchableOpacity>
                 {friends2.map(({ id, data }) =>
-                (data.stories.map((elm) =>
+                (data.stories?.map((elm) =>
                     (<StoryItem key={makeid(6)} photoUrl={elm} />)
                 )))
                 }
@@ -151,7 +147,7 @@ const Home = ({ navigation }) => {
 
             <ScrollView style={{ marginTop: 10 }}>
                 {friends2.map(({ id, data }) =>
-                (data.posts.map((elm) =>
+                (data.posts?.map((elm) =>
                     (<NotificationListItem key={makeid(6)} faCeva={faCeva} photoProfile={data.profilePhoto} name={data.name} description={elm.description} x={elm.coord.x} y={elm.coord.y} />)
                 )))
                 }

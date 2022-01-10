@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, KeyboardAvoidingView, PlatformColor, ScrollView, TextInput, TouchableOpacityBase, Keyboard, Image } from 'react-native'
+import { StyleSheet, Text, View, Modal, TouchableOpacity, KeyboardAvoidingView, Pressable, PlatformColor, ScrollView, TextInput, TouchableOpacityBase, Keyboard, Image } from 'react-native'
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons"
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Camera } from 'expo-camera';
 import { ListItem, Avatar } from 'react-native-elements'
 import { db, auth } from '../firebase'
-
+import ImageView from "react-native-image-viewing";
 
 const ChatRoom = ({ navigation, route }) => {
     const temp = auth.currentUser.uid;
@@ -155,6 +155,7 @@ const ChatRoom = ({ navigation, route }) => {
             hideSubscription.remove();
         };
     }, []);
+    const [isVisible, setIsVisible] = useState(false)
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
 
@@ -201,11 +202,17 @@ const ChatRoom = ({ navigation, route }) => {
                         {messages.sort((x, y) => {
                             return x.data.timeStamp - y.data.timeStamp
                         }).map(({ id, data: { message, timeStamp, uid } }) =>
-                            uid === temp ? ((message?.includes('https:') ?
-                                (<View key={makeid(9)} style={{ alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: 10 }}>
+                            uid === temp ? (((message?.includes('https:') || (message?.includes('file'))) ?
+                                (<View onPress={() => setIsVisible(true)} key={makeid(9)} style={{ alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: 10 }}>
                                     <Image key={makeid(4)}
                                         source={{ uri: message }}
                                         style={{ height: 140, width: 140, borderRadius: 15 }}
+                                    />
+                                    <ImageView
+                                        images={{ uri: message }}
+                                        imageIndex={0}
+                                        visible={isVisible}
+                                        onRequestClose={() => setIsVisible(false)}
                                     />
                                 </View>) : (
                                     <View key={makeid(12)} style={{
@@ -225,7 +232,7 @@ const ChatRoom = ({ navigation, route }) => {
                                             {message}
                                         </Text>
                                     </View>
-                                ))) : ((message?.includes('https:') ?
+                                ))) : (((message?.includes('https:') || (message?.includes('file'))) ?
                                     (
                                         (<View key={makeid(9)} style={{ alignSelf: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
                                             <Image key={makeid(4)}
@@ -323,5 +330,29 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         top: -17,
         marginVertical: -7
-    }
+    },
+    centeredView: {
+        flex: 1,
+        //justifyContent: "center",
+
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        marginTop: 200,
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 40,
+        paddingVertical: 80,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
 })
