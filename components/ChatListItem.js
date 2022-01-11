@@ -9,11 +9,22 @@ const ChatListItem = ({ enterChat, id, friendPhoto, friendName }) => {
     const a = { a: 1, b: 2 }
     const [messages1, setMessages1] = useState('');
     const temp = auth.currentUser.uid;
-    // useEffect(() => {
-    //     const unsubscribe = db.collection("peoples").doc(temp).collection("messages").doc(id).get().then((doc) => {
-    //         setMessages1(doc.data()?.lastMessage)
-    //     })
-    // }, [])
+    useEffect(() => {
+        const unsubscribe = db.collection("peoples").doc(temp).collection("friends").doc(id).collection("messages").onSnapshot((snapshot) => setMessages1(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data()
+            })).sort((x, y) => {
+                return y.data.timeStamp - x.data.timeStamp
+            })
+        ))
+
+        return unsubscribe;
+    }, [])
+
+
+
+    console.log(messages1)
     return (
         <ListItem containerStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: 20 }} style={{ marginBottom: 10, marginHorizontal: 28, borderRadius: 20 }} key={id} onPress={() => enterChat(id, friendName, friendPhoto)}>
 
@@ -27,12 +38,12 @@ const ChatListItem = ({ enterChat, id, friendPhoto, friendName }) => {
                 <ListItem.Title style={{ fontWeight: "800" }}>
                     {friendName}
                 </ListItem.Title>
-                {/* <ListItem.Subtitle
+                <ListItem.Subtitle
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-
-                </ListItem.Subtitle> */}
+                    {messages1?.[0]?.data.message}
+                </ListItem.Subtitle>
 
             </ListItem.Content>
 
