@@ -68,13 +68,12 @@ const NotificationListItem = ({ faCeva, navigation, name, x, y, id, photoProfile
                                 style={{ height: 50, width: 51 }}
                             />
                             <Image
-                                source={require('../Icons/cat.png')}
+                                source={{ uri: photoProfile }}
                                 style={{ height: 24, width: 24, position: 'absolute', bottom: 21, left: 14, borderRadius: 14 }}
                             />
                         </Marker>
                     </MapView>
                     <Text style={{ paddingLeft: 10 }}>
-                        In urma cu 15 minute
                     </Text>
 
                 </View>

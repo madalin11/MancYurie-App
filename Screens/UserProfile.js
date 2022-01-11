@@ -24,13 +24,19 @@ const UserProfile = ({ navigation, route }) => {
             .catch(error => alert(error.message))
     }
     useLayoutEffect(() => {
-        setPhoto(auth.currentUser.photoURL)
         setName(auth.currentUser.displayName)
     }, [route])
     const [postss, setPosts] = useState([]);
     const temp = auth.currentUser.uid;
-    const [name, setName] = useState(auth.currentUser.displayName);
+    const [name, setName] = useState('');
     const [photo, setPhoto] = useState(auth.currentUser.photoURL);
+
+    useEffect(() => {
+        const unsubscribe = db.collection("peoples").doc(temp).get().then((doc) => {
+            setPhoto(doc.data().profilePhoto)
+            setName(doc.data().name)
+        })
+    }, [postss, route])
 
     async function getPosts() {
         const docRef = db.collection('peoples').doc(temp);

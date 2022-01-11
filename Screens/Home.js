@@ -104,7 +104,9 @@ const Home = ({ navigation }) => {
         });
     }
     async function createStory() {
-        navigation.navigate("ImagePicker1")
+        navigation.navigate("ImagePicker1", {
+            id: 1
+        })
     }
     return (
 

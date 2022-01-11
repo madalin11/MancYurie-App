@@ -60,6 +60,31 @@ const Conversations = ({ navigation }) => {
         return unsubscribe;
     }, [friends])
 
+
+    const [lastElement, setLastElement] = useState('');
+
+    // function findLastMessage(id) {
+
+    //     db
+    //         .collection("peoples")
+    //         .doc(temp)
+    //         .collection("friends")
+    //         .doc(id)
+    //         .collection("messages")
+    //         .onSnapshot((snapshot) => setMessages1(
+    //             snapshot.docs.map(doc => ({
+    //                 id: doc.id,
+    //                 data: doc.data()
+    //             }))
+    //         ))
+    //     messages1.sort((x, y) => {
+    //         return x.data.timeStamp - y.data.timeStamp
+    //     })
+    //     setLastElement(messages1[messages1.length - 1])
+
+    //     return lastElement;
+    // }
+
     function filterZZZ(friend) {
         try {
             if (friend.data.name == '') {

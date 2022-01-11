@@ -137,6 +137,7 @@ const Map = ({ navigation, route }) => {
     }
     const [input, setInput] = useState('')
     return (
+
         <View style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -149,18 +150,26 @@ const Map = ({ navigation, route }) => {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>GET</Text>
-                            <TextInput onChangeText={(text) => setInput(text)} placeholder='Description' placeholderTextColor={'#101010'} style={{ bottom: 30, backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+                            <Text style={styles.modalText}>New Post</Text>
+                            <TextInput onChangeText={(text) => setInput(text)} placeholder='Description' placeholderTextColor={'#909090'} style={{ bottom: 30, backgroundColor: '#CEFEFB', borderRadius: 15, padding: 10 }}>
 
                             </TextInput>
                             <Pressable
-                                style={[styles.button, styles.buttonClose]}
+                                style={[styles.button, styles.buttonClose, styles.baluba]}
                                 onPress={() => {
                                     setModalVisible(!modalVisible)
                                     addPost(location)
                                 }}
                             >
                                 <Text style={styles.textStyle}>Add post</Text>
+                            </Pressable>
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible)
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Cancel</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -205,13 +214,9 @@ const Map = ({ navigation, route }) => {
                     <Image source={require('../Icons/share.png')} style={{ bottom: 0, top: 630, left: 330, height: 40, width: 40 }}>
                     </Image>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', top: 637, left: 325, borderRadius: 15, width: 50, height: 50 }}>
-                    <Image source={require('../Icons/share.png')} style={{ bottom: 0, top: 690, left: 330, height: 40, width: 40 }}>
-                    </Image>
-                </TouchableOpacity>
 
             </MapView>
-        </View>
+        </View >
     )
 }
 
@@ -235,13 +240,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 22
     },
+    baluba: {
+        marginTop: 45,
+    },
+
     modalView: {
         marginTop: 200,
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 40,
-        paddingVertical: 80,
+        paddingVertical: 60,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -250,13 +259,15 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        paddingBottom: 25
     },
     button: {
         borderRadius: 20,
         padding: 10,
         paddingHorizontal: 40,
-        elevation: 2
+        elevation: 2,
+        marginVertical: 10
     },
     buttonOpen: {
         backgroundColor: "#F194FF",
@@ -272,7 +283,9 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 60,
         textAlign: 'center',
-        bottom: 40
+        bottom: 40,
+        color: '#3570EC',
+        fontWeight: '700'
 
     }
 
