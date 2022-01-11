@@ -24,6 +24,7 @@ const Home = ({ navigation }) => {
     const [friends2, setFriends2] = useState([]);
     const [posts, setPosts] = useState([]);
     const temp = auth.currentUser.uid;
+    const auth2 = auth.currentUser;
     useEffect(() => {
         const unsubscribe = db
             .collection("peoples")
@@ -37,8 +38,12 @@ const Home = ({ navigation }) => {
                     }))
                 )
             })
+
         return unsubscribe;
-    }, [temp])
+    }, [temp, auth2])
+
+
+
     useEffect(() => {
         const unsubscribe = db
             .collection("peoples")
@@ -108,6 +113,10 @@ const Home = ({ navigation }) => {
             id: 1
         })
     }
+    const [ceva, setCeva] = useState('')
+
+
+    const firstn = auth.currentUser.displayName.split(" ")
     return (
 
         <SafeAreaView style={styles.button}>
@@ -120,7 +129,7 @@ const Home = ({ navigation }) => {
                 Hello,
             </Text>
             <Text style={styles.text1}>
-                Andrei
+                {firstn?.[1]}
             </Text>
             <Text style={{ color: 'white', paddingLeft: 15, marginTop: 15 }}>
                 Your Featured Stories
