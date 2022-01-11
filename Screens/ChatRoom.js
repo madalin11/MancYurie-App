@@ -105,6 +105,30 @@ const ChatRoom = ({ navigation, route }) => {
                     console.log("merge2");
                 })
                 .catch((error) => alert(error));
+
+            await db
+                .collection("peoples")
+                .doc(temp).collection("friends")
+                .doc(id)
+                .update({
+                    lastMessage: input
+                })
+                .then(() => {
+                    console.log("merge1");
+                })
+                .catch((error) => alert(error));
+
+            await db
+                .collection("peoples")
+                .doc(id).collection("friends")
+                .doc(temp)
+                .update({
+                    lastMessage: input,
+                })
+                .then(() => {
+                    console.log("merge2");
+                })
+                .catch((error) => alert(error));
         }
         setInput('')
         scrollViewRef.current.scrollToEnd({ animated: true })
