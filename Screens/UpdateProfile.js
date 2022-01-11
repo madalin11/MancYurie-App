@@ -22,7 +22,7 @@ const UpdateProfile = ({ navigation, route }) => {
     }
     const [name, setName] = useState('')
     const [lastName, setLastName] = useState('')
-    async function updateName() {
+    async function updateName1(name) {
         await auth1.updateProfile({
             displayName: name
         }).then(function () {
@@ -41,8 +41,10 @@ const UpdateProfile = ({ navigation, route }) => {
         })
     }, [nume])
 
+
     async function updateName(name1) {
         await db.collection("peoples").doc(temp).update({ name: name1 })
+        updateName1(name1);
         navigation.navigate('User Profile', { a: 1 })
     }
 
