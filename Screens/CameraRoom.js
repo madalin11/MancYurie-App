@@ -130,9 +130,9 @@ const CameraRoom = ({ navigation, route }) => {
 
                     <TouchableOpacity
                         onPress={_takePhoto}
-                        style={{ flex: 1.5 }}
+                        style={{ flex: 1 }}
                     >
-                        <Image style={{ width: 80, height: 80 }} source={require('../Icons/snap.png')}></Image>
+                        <Image style={{ alignSelf: 'center', width: 80, height: 80, left: 23 }} source={require('../Icons/snap.png')}></Image>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
@@ -158,6 +158,6 @@ const styles = StyleSheet.create({
     container: { flex: 1, height: "100%" },
     camera: { flex: 1, height: "100%" },
     buttonContainer: { bottom: 60, flexDirection: 'row', alignSelf: 'flex-start', alignContent: 'center', alignItems: 'flex-end', flex: 1 },
-    button: { marginTop: 100, flex: 1.5 },
+    button: { marginTop: 10, right: 15, top: -18 },
     text: {},
 })

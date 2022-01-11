@@ -5,9 +5,19 @@ import { auth, db } from '../firebase';
 import * as firebase from 'firebase'
 
 
-const ImagePicker1 = ({ navigation }) => {
+const ImagePicker1 = ({ navigation, route }) => {
     const temp = auth.currentUser.uid
     const [image, setImage] = useState('')
+    const id = route.params.id
+
+    async function changePhoto(image) {
+        await db.collection("peoples").doc(temp).update({
+            profilePhoto: image
+        }).then(() => {
+            console.log("merge");
+            navigation.goBack();
+        }).catch((error) => alert(error));
+    }
 
     async function createStory(image) {
         await db.collection("peoples").doc(temp).update({
@@ -40,7 +50,11 @@ const ImagePicker1 = ({ navigation }) => {
         if (!result.cancelled) {
             setImage(result.uri);
             console.log(result.uri);
-            createStory(result.uri)
+            if (id == 1)
+                createStory(result.uri)
+            else if (id == 2)
+                changePhoto(result.uri)
+
         }
     }
     return (
