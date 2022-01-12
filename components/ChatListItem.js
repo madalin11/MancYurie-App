@@ -42,7 +42,7 @@ const ChatListItem = ({ enterChat, id, friendPhoto, friendName }) => {
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    {messages1?.[0]?.data.message}
+                    {(messages1?.[0]?.data.message?.includes('http') || messages1?.[0]?.data.message?.includes('file')) ? "Sent a photo" : messages1?.[0]?.data.message}
                 </ListItem.Subtitle>
 
             </ListItem.Content>
